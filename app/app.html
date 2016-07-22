@@ -27,7 +27,9 @@
       <select ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years">
       </select>
 
-      <div class="col-md-2">mapa</div>
+      <div class="col-md-2">
+        <div id="mapa"></div>
+      </div>
 
       <div class="col-md-10">
         <div ng-view=""></div>
