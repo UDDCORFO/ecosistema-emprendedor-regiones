@@ -75,6 +75,46 @@ angular
       svg: null
     };
 
+    $rootScope.dimension_labels = {
+      n_opp: 'n_opp',
+      n_start: 'n_start',
+      n_risk: 'Riesgo',
+      n_network: 'n_network',
+      n_cultsupp: 'n_cultsupp',
+      n_oppstart: 'n_oppstart',
+      n_techno: 'n_techno',
+      n_hc: 'n_hc',
+      n_compet: 'n_compet',
+      n_pinnov: 'n_pinnov',
+      n_procinn: 'n_procinn',
+      n_hgrow: 'n_hgrow',
+      n_global: 'n_global',
+      n_finance: 'n_finance'
+    };
+
+    $rootScope.dimension_options = [];
+    angular.forEach($rootScope.dimension_labels,function(v,k){
+      return $rootScope.dimension_options.push({key:k,value:v});
+    });
+
+    $rootScope.regions = {
+      1:'Tarapacá',
+      2:'Antofagasta',
+      3:'Atacama',
+      4:'Coquimbo',
+      5:'Valparaíso',
+      6:'O\'Higgins',
+      7:'Maule',
+      8:'Bío-Bío',
+      9:'La Araucanía',
+      10:'Los Lagos',
+      11:'Aysén',
+      12:'Magallanes',
+      13:'Metropolitana de Santiago',
+      14:'Los Ríos',
+      15:'Arica y Parinacota'
+    };
+
     var pymChild = new pym.Child({ polling: 1000 });
     pymChild.sendHeight();
 
@@ -89,7 +129,7 @@ angular
 
     $rootScope.yearChanged = function(){
       $rootScope.data = $rootScope.fulldata[$rootScope.selectedYear].elements;
-      console.log($rootScope.data);
+      $rootScope.$broadcast("newData");
     };
 
     function renderMap(){
@@ -105,12 +145,10 @@ angular
 
         var chile = REGIONES_TOPOJSON; //from regiones.json
         
-        console.log((width/100)*130);
-        var projection = d3.geoMercator()
+        var projection = d3.geo.mercator()
             .scale(650)
             .translate([width / 2, height / 2])
             .precision(0.1)
-//            .rotate([0,-250,0])
             .center([-70,-39]);
 
         var back = $rootScope.map.svg
@@ -126,7 +164,6 @@ angular
                 //that.unselect();
             });
 
-
         var pathsGroup = $rootScope.map.svg
             .append("g")
             .attr("class", 'paths-group');
@@ -137,7 +174,7 @@ angular
             .append("path")
             .attr("class", function(d) { return "region " + d.id; })
             .attr("id", function(d) { return "region-" + d.id; })
-            .attr("d", d3.geoPath().projection(projection))
+            .attr("d", d3.geo.path().projection(projection))
             .style("fill",function(d){
               return '#ff0000';
               /*var value = that.getRegion(d.id);
