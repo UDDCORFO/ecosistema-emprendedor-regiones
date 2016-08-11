@@ -31,6 +31,27 @@ angular
         redirectTo: '/'
       });
   })
+  .service('ColorService', function () {
+
+    this.getThresholdScale = function(min,max){
+      var d = (max-min)/10;
+      return d3.scale.threshold()
+          .range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
+          .domain([min+1*d,min+2*d,min+3*d,min+4*d,min+5*d,min+6*d,min+7*d,min+8*d,min+9*d,min+10*d]);
+    };
+
+    this.paintMap = function(data){
+
+      angular.forEach(data,function(r){
+        d3.select("path#region-"+r.id)
+          .transition()
+          .duration(1000)
+          .style('fill',r.color);
+      });
+
+    };
+
+  })
   .service('TabletopService', function ($q) {
 
     this.data = false;
@@ -67,7 +88,7 @@ angular
     };
 
   })
-  .run(function(TabletopService,$rootScope) {
+  .run(function(TabletopService,$rootScope,ColorService) {
 
     $rootScope.loading = true;
     $rootScope.map = {
@@ -115,6 +136,8 @@ angular
       15:'Arica y Parinacota'
     };
 
+    //$rootScope.colors = ['#bcbddc','#aca4cf','#9b8ac3','#8b72b6','#7958a9','#67409c','#54278f'];
+
     var pymChild = new pym.Child({ polling: 1000 });
     pymChild.sendHeight();
 
@@ -154,7 +177,7 @@ angular
         var back = $rootScope.map.svg
             .append("rect")
             .attr("class", 'svg-back')
-            .style("fill", "#ff9900")
+            .style("fill", "#fff")
             .style("opacity", 1)
             .attr("x", 0)
             .attr("y", 0)
@@ -172,13 +195,11 @@ angular
             .data(topojson.feature(chile, chile.objects.regiones).features)
             .enter()
             .append("path")
-            .attr("class", function(d) { return "region " + d.id; })
+            .attr("class", function(d) { return "region"; })
             .attr("id", function(d) { return "region-" + d.id; })
             .attr("d", d3.geo.path().projection(projection))
             .style("fill",function(d){
-              return '#ff0000';
-              /*var value = that.getRegion(d.id);
-              return that.quantize(value.conformado_porcentaje);*/
+              return '#bcbddc';
             });
 
     }
