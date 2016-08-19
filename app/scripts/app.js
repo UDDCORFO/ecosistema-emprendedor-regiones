@@ -22,10 +22,10 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/details/:id', {
+        templateUrl: 'views/details.html',
+        controller: 'DetailsCtrl',
+        controllerAs: 'details'
       })
       .otherwise({
         redirectTo: '/'
@@ -88,7 +88,7 @@ angular
     };
 
   })
-  .run(function(TabletopService,$rootScope,ColorService) {
+  .run(function(TabletopService, $rootScope, ColorService, $location) {
 
     $rootScope.loading = true;
     $rootScope.map = {
@@ -155,6 +155,20 @@ angular
       $rootScope.$broadcast("newData");
     };
 
+    $rootScope.goToDetail = function(id){
+      $rootScope.$apply(function() {
+        $location.path('/details/'+id);
+      });
+    };
+
+    $rootScope.hoverMap = function(id){
+      //console.log('hoverMap',id);
+    };
+
+    $rootScope.unhoverMap = function(id){
+      //console.log('unhoverMap',id);
+    };
+
     function renderMap(){
 
         var sizes = $rootScope.map.container.node().getBoundingClientRect();
@@ -200,6 +214,9 @@ angular
             .attr("d", d3.geo.path().projection(projection))
             .style("fill",function(d){
               return '#bcbddc';
+            })
+            .on("click",function(d){
+              $rootScope.goToDetail(d.id);
             });
 
     }

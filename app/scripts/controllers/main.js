@@ -8,7 +8,7 @@
  * Controller of the ecosistemaEmprendedorRegionesApp
  */
 angular.module('ecosistemaEmprendedorRegionesApp')
-  .controller('MainCtrl', function ($scope, ColorService) {
+  .controller('MainCtrl', function ($scope, ColorService, $location) {
   	
   	$scope.dimension_selected = 'n_opp';
 
@@ -17,7 +17,9 @@ angular.module('ecosistemaEmprendedorRegionesApp')
   	});
 
   	$scope.dimensionChanged = function(){
-  		$scope.renderChart();
+      if($scope.data){
+    		$scope.renderChart();      
+      }
   	};
 
   	var chart = false;
@@ -26,50 +28,74 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
   	$scope.renderChart = function(){
 
-  		$scope.chartData = $scope.prepareData();
+      if($scope.data){
 
-  		var dataConfig = {
-			        json: $scope.chartData,
-			        type:'bar',
-			        xSort: false,
-			        keys: {
-				      x: 'name',
-				      value: ['value'],
-				    },
-				    color: function (color, d) {
-				    	if(d.index != undefined){
-				    		return $scope.chartData[d.index].color;
-				    	}
-				    }
-			    };
+    		$scope.chartData = $scope.prepareData();
 
-  		if(!chart){
-  			chart = c3.generate({
-  				bindto: '#lines-container',
-			    data: dataConfig,
-			    size: {
-				  height: 600
-				},
-			    axis: {
-			        rotated: true,
-			        x:{
-			        	type:'category'
-			        }
-			    },
-			    legend: {
-				  show: false
-				}
-			});
-  		} else {
-  			chart.load(dataConfig);
-  		}
+    		var dataConfig = {
+  			        json: $scope.chartData,
+  			        type:'bar',
+  			        xSort: false,
+  			        keys: {
+  				      x: 'name',
+  				      value: ['value'],
+  				    },
+  				    color: function (color, d) {
+  				    	if(d.index != undefined){
+  				    		return $scope.chartData[d.index].color;
+  				    	}
+  				    },
+              onclick: function (d, element) {
+                $scope.goToDetail($scope.chartData[d.index].id);
+              }
+  			    };
 
-  		ColorService.paintMap($scope.chartData);
+    		if(!chart){
+    			chart = c3.generate({
+    				bindto: '#lines-container',
+  			    data: dataConfig,
+  			    size: {
+  				  height: 600
+  				},
+    			    axis: {
+    			        rotated: true,
+    			        x:{
+    			        	type:'category'
+    			        }
+    			    },
+    			    legend: {
+    				  show: false
+    				}
+    			});
+        
+          d3.selectAll('.c3-axis-x .tick')
+          .on('mouseenter', function(value,index){
+            $scope.hoverTick($scope.chartData[value].id);
+          })
+          .on('mouseleave', function(value,index){
+            $scope.unhoverTick($scope.chartData[value].id);
+          })
+          .on('click', function(value,index){
+            $scope.goToDetail($scope.chartData[value].id);
+          });
+    		
+        } else {
+    			chart.load(dataConfig);
+    		}
+
+        d3.selectAll('.c3-axis-x .tick')
+        .attr('id',function(value, index){
+          return 'tick-'+value;
+        });
+
+    		ColorService.paintMap($scope.chartData);
+      }
+
 
   	};
 
   	$scope.prepareData = function(){
-  		var data = $scope.data.map(function(d){
+  		var data = angular.copy($scope.data).map(function(d){
   			return {id:d.region,name:$scope.regions[d.region],value:d[$scope.dimension_selected]}
   		}).sort(function(a,b){
   			return a.value<b.value;
@@ -87,5 +113,16 @@ angular.module('ecosistemaEmprendedorRegionesApp')
   		});
   	};
 
+    $scope.hoverTick = function(id){
+      //console.log('hoverTick',id);
+      $scope.hoverMap(id);
+    };
+
+    $scope.unhoverTick = function(id){
+      //console.log('hoverTick',id);
+      $scope.unhoverMap(id);
+    };
+
+    $scope.renderChart();
 
   });

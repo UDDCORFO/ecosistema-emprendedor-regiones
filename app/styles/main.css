@@ -2,6 +2,18 @@ body {
   padding: 0;
 }
 
+.c3-axis-x .tick{
+	cursor: pointer;
+}
+
+.c3-axis-x .tick.hover{
+	font-weight: bold;
+	font-size: 14px;	
+}
+
+path.region{
+	cursor: pointer;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
