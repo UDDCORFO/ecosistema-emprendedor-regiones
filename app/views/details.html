@@ -1,11 +1,24 @@
-<p><a href="#/">cerrar detalle</a></p>
-<h2>{{current.region}}. {{current.nombre}}</h2>
+<div class="row">
+	<div class="col-xs-1">
+		<a href="javascript:;" class="arrow arrow.prev" ng-click="prev()"><<</a>
+	</div>
+	<div class="col-xs-10">
+		<div class="col-md-12">
+			<a href="#/">Cerrar</a>
+			<h2 class="text-center">{{current.nombre}} <small>Región {{romanize(current.region)}}</small></h2>
+		</div>
+		<div class="col-md-6 text-center">
+			<h3><strong>Ranking:</strong> #{{current.ranking}} de 15</h3>
+		</div>
+		<div class="col-md-6 text-center">
+			<h3><strong>Índice general:</strong> {{current.general}}</h3>
+		</div>
+		<div class="col-md-12">
+			<div id="radar-chart"></div>
+		</div>
 
-<p>
-{{current}}
-</p>
-
-<p>
-<a href="javascript:;" ng-click="prev()">Anterior</a>
-<a href="javascript:;" ng-click="next()">Siguiente</a>
-</p>
+	</div>
+	<div class="col-xs-1">
+		<a href="javascript:;" class="arrow arrow.next" ng-click="next()">>></a>
+	</div>
+</div>

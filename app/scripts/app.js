@@ -51,6 +51,17 @@ angular
 
     };
 
+    this.selectRegion = function(id){
+
+      d3.selectAll("path.region")
+        .transition()
+        .duration(1000)
+        .style('fill',function(d){
+          return (d.id==id)?'#ff9900':'#bcbddc';
+        });
+
+    };
+
   })
   .service('TabletopService', function ($q) {
 
@@ -110,7 +121,8 @@ angular
       n_procinn: 'n_procinn',
       n_hgrow: 'n_hgrow',
       n_global: 'n_global',
-      n_finance: 'n_finance'
+      n_finance: 'n_finance',
+      general: 'Índice general'
     };
 
     $rootScope.dimension_options = [];
@@ -151,7 +163,12 @@ angular
     };
 
     $rootScope.yearChanged = function(){
-      $rootScope.data = $rootScope.fulldata[$rootScope.selectedYear].elements;
+      $rootScope.data = $rootScope.fulldata[$rootScope.selectedYear].elements
+        .sort(function(a,b){return a.general<b.general})
+        .map(function(d,ix){
+          d.ranking = ix+1;
+          return d;
+        });
       $rootScope.$broadcast("newData");
     };
 
@@ -167,6 +184,20 @@ angular
 
     $rootScope.unhoverMap = function(id){
       //console.log('unhoverMap',id);
+    };
+
+    $rootScope.romanize = function(num){
+
+      var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},
+          roman = '',
+          i;
+      for ( i in lookup ) {
+        while ( num >= lookup[i] ) {
+          roman += i;
+          num -= lookup[i];
+        }
+      }
+      return roman;
     };
 
     function renderMap(){

@@ -10,7 +10,7 @@
 angular.module('ecosistemaEmprendedorRegionesApp')
   .controller('MainCtrl', function ($scope, ColorService, $location) {
   	
-  	$scope.dimension_selected = 'n_opp';
+  	$scope.dimension_selected = 'general';
 
   	$scope.$on("newData", function () {
   		$scope.renderChart();
