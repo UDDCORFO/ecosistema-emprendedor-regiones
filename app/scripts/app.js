@@ -27,6 +27,11 @@ angular
         controller: 'DetailsCtrl',
         controllerAs: 'details'
       })
+      .when('/compare/:id1/:id2?', {
+        templateUrl: 'views/compare.html',
+        controller: 'CompareCtrl',
+        controllerAs: 'compare'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -51,13 +56,19 @@ angular
 
     };
 
-    this.selectRegion = function(id){
+    this.selectRegion = function(id1,id2){
 
       d3.selectAll("path.region")
         .transition()
         .duration(1000)
         .style('fill',function(d){
-          return (d.id==id)?'#ff9900':'#bcbddc';
+          if(d.id==id1){
+            return '#ff9900';
+          } else if(id2 && d.id==id2){
+            return '#001D34';
+          } else {
+            return '#bcbddc';
+          }
         });
 
     };
@@ -74,19 +85,19 @@ angular
       return $q(function(resolve, reject) {
         if(!that.data){
           Tabletop.init( { key: '1mB7Mes_YsCRTKNEvVTxQMDXtN17BGakWOxlx7MlRPWM',
-                  callback: function(data, tabletop) { 
+                  callback: function(data, tabletop) {
                     that.data = data;
                     resolve(angular.copy(that.data));
                   },
                   simpleSheet: false,
                   parseNumbers: false,
                   postProcess: function(r){
-                    var integers = ['npinnov','nprocinn','nfinance'];
+                    var integers = ['region'];
                     angular.forEach(r,function(value,ix){
                       if(integers.indexOf(ix)>-1){
                         r[ix] = parseInt(value.replace(/\./g,''));
                       }else{
-                        r[ix] = parseFloat(value);
+                        r[ix] = parseFloat((value+'').replace(/\,/g,'.'));
                       }
                     });
                     return r;
@@ -108,21 +119,21 @@ angular
     };
 
     $rootScope.dimension_labels = {
-      n_opp: 'n_opp',
-      n_start: 'n_start',
-      n_risk: 'Riesgo',
-      n_network: 'n_network',
-      n_cultsupp: 'n_cultsupp',
-      n_oppstart: 'n_oppstart',
-      n_techno: 'n_techno',
-      n_hc: 'n_hc',
-      n_compet: 'n_compet',
-      n_pinnov: 'n_pinnov',
-      n_procinn: 'n_procinn',
-      n_hgrow: 'n_hgrow',
-      n_global: 'n_global',
-      n_finance: 'n_finance',
-      general: 'Índice general'
+      general: 'Índice general',
+      n_opp: 'Percepción de Oportunidades',
+      n_start: 'Habilidades de Emprendimiento',
+      n_risk: 'Tolerancia al Riesgo',
+      n_network: 'Calidad de redes de trabajo',
+      n_cultsupp: 'Aceptación cultural al emprendimiento',
+      n_oppstart: 'Facilidad para iniciar negocios',
+      n_techno: 'Absorbción tecnológica',
+      n_hc: 'Calidad de los recursos humanos',
+      n_compet: 'Nivel de competencia',
+      n_pinnov: 'Desarrollo de nuevos productos',
+      n_procinn: 'Desarrollo de nuevas tecnologías',
+      n_hgrow: 'Creación de empresas de alto crecimiento',
+      n_global: 'Internacionalización',
+      n_finance: 'Financiamiento disponible'
     };
 
     $rootScope.dimension_options = [];
@@ -164,9 +175,10 @@ angular
 
     $rootScope.yearChanged = function(){
       $rootScope.data = $rootScope.fulldata[$rootScope.selectedYear].elements
-        .sort(function(a,b){return a.general<b.general})
+        .sort(function(a,b){return (a.general<b.general)?1:-1})
         .map(function(d,ix){
           d.ranking = ix+1;
+          d.nombre = $rootScope.regions[d.region];
           return d;
         });
       $rootScope.$broadcast("newData");

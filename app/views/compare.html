@@ -1,0 +1,26 @@
+<div class="row">
+	<div class="col-md-12">
+		<a href="#/">Cerrar</a>
+	</div>
+	<div class="col-xs-6 text-center">
+		<select ng-options="key as value for (key , value) in regions" ng-model="id1" ng-change="changeSelect()"></select>
+	</div>
+	<div class="col-xs-6 text-center">
+		<select ng-options="key as value for (key , value) in regions" ng-model="id2" ng-change="changeSelect()">
+			<option value="">-- Seleccionar región para comparar --</option>
+		</select>
+	</div>
+	<div class="col-xs-6 text-center">
+		<h2><small>Región {{romanize(region1.region)}}</small></h2>
+		<h3><strong>Ranking:</strong> #{{region1.ranking}} de 15</h3>
+		<h3><strong>Índice general:</strong> {{region1.general}}</h3>
+	</div>
+	<div ng-show="id2" class="col-xs-6 text-center">
+		<h2><small>Región {{romanize(region2.region)}}</small></h2>
+		<h3><strong>Ranking:</strong> #{{region2.ranking}} de 15</h3>
+		<h3><strong>Índice general:</strong> {{region2.general}}</h3>
+	</div>
+	<div class="col-md-12">
+		<div id="radar-chart"></div>
+	</div>
+</div>

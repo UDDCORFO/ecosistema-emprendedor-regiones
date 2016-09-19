@@ -8,28 +8,54 @@
  * Controller of the ecosistemaEmprendedorRegionesApp
  */
 angular.module('ecosistemaEmprendedorRegionesApp')
-  .controller('DetailsCtrl', function ($scope, $routeParams, $location, ColorService) {
+  .controller('CompareCtrl', function ($scope, $routeParams, $location, ColorService) {
     
     $scope.$on("newData", function () {
-  		$scope.renderChart();
+  		$scope.setup();
   	});
 
     $scope.rendered = false;
 
+    $scope.setup = function(){
+        $scope.id1 =  $routeParams.id1;
+        $scope.region1 = _.find($scope.data, ['region', parseInt($routeParams.id1)]);
+        if($routeParams.id2){
+            $scope.id2 =  $routeParams.id2;
+	    	$scope.region2 = _.find($scope.data, ['region', parseInt($routeParams.id2)]);
+        }
+        ColorService.selectRegion($scope.id1,$scope.id2);
+        $scope.renderChart();
+    }
+
+    $scope.changeSelect = function(){
+        var params = $scope.id1+'/';
+        params += ($scope.id2)?$scope.id2:'';
+        $location.path('/compare/'+params);
+    }
+
     $scope.renderChart = function(){
-    	if($scope.data && !$scope.rendered){
+        if($scope.data && !$scope.rendered){
             $scope.rendered = true;
-	    	$scope.id =  $routeParams.id;
-	    	$scope.current = _.find($scope.data, ['region', parseInt($routeParams.id)]);
-            ColorService.selectRegion($scope.id);
             
             var detail = [];
-            angular.forEach($scope.current,function(v,i){
+            angular.forEach($scope.region1,function(v,i){
                 if(['region','nombre','ranking','general'].indexOf(i)==-1){
                     detail.push({axis:$scope.dimension_labels[i],value:v})
                 }
             });
+
             $scope.radarData = [detail];
+
+            if($scope.region2){
+                var detail2 = [];
+                angular.forEach($scope.region2,function(v,i){
+                    if(['region','nombre','ranking','general'].indexOf(i)==-1){
+                        detail2.push({axis:$scope.dimension_labels[i],value:v})
+                    }
+                });
+
+                $scope.radarData.push(detail2);
+            }
 
             console.log('radarchart',$scope.radarData);
 
@@ -69,22 +95,6 @@ angular.module('ecosistemaEmprendedorRegionesApp')
     	}
     };
 
-    $scope.prev = function(){
-    	var prev = $scope.current.region-1;
-    	if(prev == 0){
-    		prev = 15;
-    	}
-    	$location.path('/details/'+prev);
-    };
-
-    $scope.next = function(){
-    	var next = $scope.current.region+1;
-    	if(next == 16){
-    		next = 1;
-    	}
-    	$location.path('/details/'+next);
-    };
-
-    $scope.renderChart();
+    $scope.setup();
 
   });

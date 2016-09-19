@@ -52,16 +52,24 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
     		if(!chart){
     			chart = c3.generate({
-    				bindto: '#lines-container',
-  			    data: dataConfig,
-  			    size: {
-  				  height: 600
-  				},
+    				  bindto: '#lines-container',
+  			      data: dataConfig,
+  			      size: {
+  				      height: 600
+  				    },
     			    axis: {
     			        rotated: true,
     			        x:{
     			        	type:'category'
-    			        }
+    			        },
+                  y:{
+                    max:1,
+                    min:0,
+                    padding: {
+                      top: 0,
+                      bottom: 0
+                    }
+                  }
     			    },
     			    legend: {
     				  show: false
@@ -96,15 +104,12 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
   	$scope.prepareData = function(){
   		var data = angular.copy($scope.data).map(function(d){
-  			return {id:d.region,name:$scope.regions[d.region],value:d[$scope.dimension_selected]}
+  			return {id:d.region,name:d.nombre,value:d[$scope.dimension_selected]}
   		}).sort(function(a,b){
-  			return a.value<b.value;
+  			return (a.value<b.value)?1:-1;
   		});
 
   		var max = 1;
-  		if(['n_pinnov','n_procinn','n_finance'].indexOf($scope.dimension_selected)>-1){
-  			max = d3.max(data,function(d){return parseInt(d.value);});
-  		}
   		var colorScale = ColorService.getThresholdScale(-0.001,max+0.1);
 
   		return data.map(function(d){
