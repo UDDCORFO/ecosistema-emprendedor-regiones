@@ -2,6 +2,10 @@ body {
   padding: 0;
 }
 
+#mapa{
+	width: 100%;
+}
+
 .c3-axis-x .tick{
 	cursor: pointer;
 }

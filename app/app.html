@@ -25,16 +25,16 @@
 
       <div class="row">
 
-        <div id="sidebar" class="col-md-2">
+        <div id="sidebar" class="col-sm-2">
           <label ng-show="!loading">Año de la muestra:</label>
           <select ng-show="!loading" class="form-control" ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years">
           </select>
           <p ng-show="!loading" class="help-block up text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Seleccione para cambiar el año de la muestra en cualquier momento</p>
-          <div id="mapa" class="hidden-sm hidden-xs"></div>
-          <p ng-show="!loading" class="help-block up hidden-sm hidden-xs text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Click en el mapa para ver el detalle de la región</p>
+          <div id="mapa" class="hidden-xs"></div>
+          <p ng-show="!loading" class="help-block up hidden-xs text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Click en el mapa para ver el detalle de la región</p>
         </div>
 
-        <div id="main-col" class="col-md-10 col-sm-12" ng-class="{loading:loading}">
+        <div id="main-col" class="col-sm-10 col-xs-12" ng-class="{loading:loading}">
           <div ng-hide="loading" ng-view=""></div>
         </div>
         
