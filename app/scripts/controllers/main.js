@@ -8,12 +8,12 @@
  * Controller of the ecosistemaEmprendedorRegionesApp
  */
 angular.module('ecosistemaEmprendedorRegionesApp')
-  .controller('MainCtrl', function ($scope, ColorService, $location) {
+  .controller('MainCtrl', function ($scope, ColorService, $location, $timeout) {
   	
   	$scope.dimension_selected = 'general';
 
   	$scope.$on("newData", function () {
-  		$scope.renderChart();
+      $timeout($scope.renderChart,1000);
   	});
 
   	$scope.dimensionChanged = function(){
@@ -24,7 +24,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
   	var chart = false;
 
-  	$scope.colorScale;
+    $scope.colorScale = ColorService.getThresholdScale(-0.001,1.1);
 
   	$scope.renderChart = function(){
 
@@ -57,6 +57,9 @@ angular.module('ecosistemaEmprendedorRegionesApp')
   			      size: {
   				      height: 600
   				    },
+              padding:{
+                top:0
+              },
     			    axis: {
     			        rotated: true,
     			        x:{
@@ -71,6 +74,13 @@ angular.module('ecosistemaEmprendedorRegionesApp')
                     }
                   }
     			    },
+              grid:{
+                y:{
+                    lines: [
+                      {value: $scope.avg, text: 'Promedio: '+$scope.avg,position: 'start', class:'promedio-line'}
+                    ],
+                }
+              },
     			    legend: {
     				  show: false
     				}
@@ -89,7 +99,17 @@ angular.module('ecosistemaEmprendedorRegionesApp')
     		
         } else {
     			chart.load(dataConfig);
+          chart.ygrids([
+            {value: $scope.avg, text:'Promedio: '+$scope.avg,position: 'start', class:'promedio-line'}
+          ]);
     		}
+
+        d3.select('g.promedio-line line')
+          .style('stroke',$scope.colorScale($scope.avg))
+          .style('stroke-width',3);
+
+        d3.select('g.promedio-line text')
+          .style('fill',$scope.colorScale($scope.avg));
 
         d3.selectAll('.c3-axis-x .tick')
         .attr('id',function(value, index){
@@ -103,19 +123,21 @@ angular.module('ecosistemaEmprendedorRegionesApp')
   	};
 
   	$scope.prepareData = function(){
-  		var data = angular.copy($scope.data).map(function(d){
-  			return {id:d.region,name:d.nombre,value:d[$scope.dimension_selected]}
-  		}).sort(function(a,b){
-  			return (a.value<b.value)?1:-1;
-  		});
+      $scope.sum = 0;
+      $scope.avg = 0;
+      $scope.qty = 0;
 
-  		var max = 1;
-  		var colorScale = ColorService.getThresholdScale(-0.001,max+0.1);
+      var data = angular.copy($scope.data).map(function(d){
+        var value = d[$scope.dimension_selected];
+        $scope.sum += value;
+        $scope.qty += 1;
+        $scope.avg = Math.round(($scope.sum / $scope.qty) * 100) / 100;
+        return {id:d.region,name:d.nombre,value:value,color:$scope.colorScale(value)}
+      }).sort(function(a,b){
+        return (a.value<b.value)?1:-1;
+      });
 
-  		return data.map(function(d){
-  			d.color = colorScale(d.value);
-  			return d;
-  		});
+  		return data;
   	};
 
     $scope.hoverTick = function(id){

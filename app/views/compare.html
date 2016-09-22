@@ -1,26 +1,41 @@
 <div class="row">
-	<div class="col-md-12">
-		<a href="#/">Cerrar</a>
+	<div class="col-xs-12 text-center">
+		<label>Comparativa entre regiones</label>
 	</div>
-	<div class="col-xs-6 text-center">
-		<select ng-options="key as value for (key , value) in regions" ng-model="id1" ng-change="changeSelect()"></select>
+	<div class="col-sm-5 text-center">
+		<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id1" ng-change="changeSelect()"></select>
 	</div>
-	<div class="col-xs-6 text-center">
-		<select ng-options="key as value for (key , value) in regions" ng-model="id2" ng-change="changeSelect()">
+	<div class="col-sm-2 text-center">
+		<label>-</label>
+	</div>
+	<div class="col-sm-5 text-center">
+		<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id2" ng-change="changeSelect()">
 			<option value="">-- Seleccionar región para comparar --</option>
 		</select>
 	</div>
 	<div class="col-xs-6 text-center">
 		<h2><small>Región {{romanize(region1.region)}}</small></h2>
-		<h3><strong>Ranking:</strong> #{{region1.ranking}} de 15</h3>
-		<h3><strong>Índice general:</strong> {{region1.general}}</h3>
+		<label>Ranking:</label>
+		<h3>#{{region1.ranking}} de 15</h3>
+		<label>Índice general:</label>
+		<h3>{{region1.general}}</h3>
 	</div>
 	<div ng-show="id2" class="col-xs-6 text-center">
 		<h2><small>Región {{romanize(region2.region)}}</small></h2>
-		<h3><strong>Ranking:</strong> #{{region2.ranking}} de 15</h3>
-		<h3><strong>Índice general:</strong> {{region2.general}}</h3>
+		<label>Ranking:</label>
+		<h3>#{{region2.ranking}} de 15</h3>
+		<label>Índice general:</label>
+		<h3>{{region2.general}}</h3>
 	</div>
 	<div class="col-md-12">
 		<div id="radar-chart"></div>
 	</div>
+</div>
+
+<div class="row">
+
+	<div class="col-md-12">
+		<a class="btn btn-block btn-lg btn-default" ng-href="#/">Volver a gráfico principal</a>
+	</div>
+
 </div>

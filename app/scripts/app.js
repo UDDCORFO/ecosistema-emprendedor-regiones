@@ -41,7 +41,8 @@ angular
     this.getThresholdScale = function(min,max){
       var d = (max-min)/10;
       return d3.scale.threshold()
-          .range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
+//          .range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
+          .range(['#001d34','#2a2734','#443233','#5e3d32','#784830','#92532d','#ac5f29','#c76b23','#e27619','#ff8303'])
           .domain([min+1*d,min+2*d,min+3*d,min+4*d,min+5*d,min+6*d,min+7*d,min+8*d,min+9*d,min+10*d]);
     };
 
@@ -67,7 +68,7 @@ angular
           } else if(id2 && d.id==id2){
             return '#001D34';
           } else {
-            return '#bcbddc';
+            return '#ddd';
           }
         });
 
@@ -256,7 +257,7 @@ angular
             .attr("id", function(d) { return "region-" + d.id; })
             .attr("d", d3.geo.path().projection(projection))
             .style("fill",function(d){
-              return '#bcbddc';
+              return '#ddd';
             })
             .on("click",function(d){
               $rootScope.goToDetail(d.id);

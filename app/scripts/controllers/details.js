@@ -8,16 +8,20 @@
  * Controller of the ecosistemaEmprendedorRegionesApp
  */
 angular.module('ecosistemaEmprendedorRegionesApp')
-  .controller('DetailsCtrl', function ($scope, $routeParams, $location, ColorService) {
+  .controller('DetailsCtrl', function ($scope, $routeParams, $location, ColorService, $timeout) {
     
     $scope.$on("newData", function () {
-  		$scope.renderChart();
+        $timeout($scope.renderChart,500);
   	});
 
     $scope.rendered = false;
 
+    $scope.loadingDetail =  true;
+
     $scope.renderChart = function(){
     	if($scope.data && !$scope.rendered){
+            console.info('RENDER CHART');
+            $scope.loadingDetail =  false;
             $scope.rendered = true;
 	    	$scope.id =  $routeParams.id;
 	    	$scope.current = _.find($scope.data, ['region', parseInt($routeParams.id)]);
@@ -31,21 +35,14 @@ angular.module('ecosistemaEmprendedorRegionesApp')
             });
             $scope.radarData = [detail];
 
-            console.log('radarchart',$scope.radarData);
-
-            var w = d3.select("#radar-chart").node().getBoundingClientRect().width;
+            var w = Math.round(d3.select("#radar-chart").node().getBoundingClientRect().width);
 
             ////////////////////////////////////////////////////////////// 
             //////////////////////// Set-Up ////////////////////////////// 
             ////////////////////////////////////////////////////////////// 
 
             var margin = {top: 100, right: 100, bottom: 100, left: 100},
-                width = 618,
-                height = 618;
-
-            console.log(w);
-            console.log(width);
-            console.log(height);
+                size = w;
 
             ////////////////////////////////////////////////////////////// 
             //////////////////// Draw the Chart ////////////////////////// 
@@ -55,14 +52,16 @@ angular.module('ecosistemaEmprendedorRegionesApp')
                 .range(["#EDC951","#CC333F","#00A0B0"]);
                 
             var radarChartOptions = {
-              w: width,
-              h: height,
+              w: size-margin.right-margin.left,
+              h: size-margin.right-margin.left,
               margin: margin,
-              maxValue: 0.5,
+              maxValue: 1,
               levels: 10,
               roundStrokes: false,
-              color: color
+              color: color,
+              labelFactor:1.1
             };
+            //$('#radar-chart').html('<p>ALTO CHART</p>');
             //Call function to draw the Radar chart
             RadarChart("#radar-chart", $scope.radarData, radarChartOptions);
 
@@ -85,6 +84,17 @@ angular.module('ecosistemaEmprendedorRegionesApp')
     	$location.path('/details/'+next);
     };
 
-    $scope.renderChart();
+    if(d3.select('#radar-chart').select('p').empty()){
+        console.info('nuevo!');
+        $timeout(function(){
+            $scope.renderChart();
+        },500);
+    } else {
+        console.info('update!');
+        $timeout(function(){
+            $scope.renderChart();
+        },500);
+    }
+
 
   });

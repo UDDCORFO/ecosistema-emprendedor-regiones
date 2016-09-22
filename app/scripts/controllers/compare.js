@@ -8,10 +8,11 @@
  * Controller of the ecosistemaEmprendedorRegionesApp
  */
 angular.module('ecosistemaEmprendedorRegionesApp')
-  .controller('CompareCtrl', function ($scope, $routeParams, $location, ColorService) {
+  .controller('CompareCtrl', function ($scope, $routeParams, $location, ColorService, $timeout) {
     
     $scope.$on("newData", function () {
-  		$scope.setup();
+  		//$scope.setup();
+        $timeout($scope.setup,500);
   	});
 
     $scope.rendered = false;
@@ -59,42 +60,40 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
             console.log('radarchart',$scope.radarData);
 
-            var w = d3.select("#radar-chart").node().getBoundingClientRect().width;
+            var w = Math.round(d3.select("#radar-chart").node().getBoundingClientRect().width);
 
             ////////////////////////////////////////////////////////////// 
             //////////////////////// Set-Up ////////////////////////////// 
             ////////////////////////////////////////////////////////////// 
 
             var margin = {top: 100, right: 100, bottom: 100, left: 100},
-                width = 618,
-                height = 618;
-
-            console.log(w);
-            console.log(width);
-            console.log(height);
+                size = w;
 
             ////////////////////////////////////////////////////////////// 
             //////////////////// Draw the Chart ////////////////////////// 
             ////////////////////////////////////////////////////////////// 
 
             var color = d3.scale.ordinal()
-                .range(["#EDC951","#CC333F","#00A0B0"]);
+                .range(["#001d34","#ff8303"]);
                 
             var radarChartOptions = {
-              w: width,
-              h: height,
+              w: size-margin.right-margin.left,
+              h: size-margin.right-margin.left,
               margin: margin,
-              maxValue: 0.5,
+              maxValue: 1,
               levels: 10,
               roundStrokes: false,
-              color: color
+              color: color,
+              labelFactor:1.1
             };
+            //$('#radar-chart').html('<p>ALTO CHART</p>');
             //Call function to draw the Radar chart
             RadarChart("#radar-chart", $scope.radarData, radarChartOptions);
 
     	}
     };
 
-    $scope.setup();
+    //$scope.setup();
+    $timeout($scope.setup,500);
 
   });

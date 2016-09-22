@@ -1,11 +1,17 @@
 <div ng-hide="loading" class="row">
-	<div class="col-md-12">
-		<p>
-		Dimensión:
-		<select ng-change="dimensionChanged()" ng-options="o.key as o.value for o in dimension_options" ng-model="dimension_selected"></select>
-		</p>
+	<div class="col-sm-5">
+		<label>Dimensión seleccionada:</label>
+		<select class="form-control" ng-change="dimensionChanged()" ng-options="o.key as o.value for o in dimension_options" ng-model="dimension_selected"></select>
+	</div>
+	<div class="col-sm-7">
+		<label class="hidden-xs"></label>
+		<p class="help-block to-select"><i class="hidden-xs glyphicon glyphicon-arrow-left"></i><i class=" hidden-sm hidden-md hidden-lg glyphicon glyphicon-arrow-up"></i><br class=" hidden-sm hidden-md hidden-lg"/> Modifique la dimensión seleccionada para actualizar el gráfico</p>
+	</div>
+	<div class="col-sm-12">
+		<p class="help-block down">Click en los nombres o en las barras para ver el detalle de la región<br/><span class="spacer"></span><i class="glyphicon glyphicon-arrow-down"></i><span class="spacer"></span><i class="glyphicon glyphicon-arrow-down"></i></p>
 		<div id="lines-container">
-			
+			<!-- Line container -->
 		</div>
+		<p ng-show="!loading" class="help-block up text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Los indicadores tienen valores entre 0 y 1. La línea vertical indica el valor promedio.</p>
 	</div>
 </div>
