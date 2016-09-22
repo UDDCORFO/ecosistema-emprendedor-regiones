@@ -74,7 +74,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
             ////////////////////////////////////////////////////////////// 
 
             var color = d3.scale.ordinal()
-                .range(["#001d34","#ff8303"]);
+                .range(["#ff8303","#001d34"]);
                 
             var radarChartOptions = {
               w: size-margin.right-margin.left,
