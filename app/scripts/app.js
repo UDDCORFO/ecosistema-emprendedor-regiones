@@ -162,7 +162,7 @@ angular
 
     //$rootScope.colors = ['#bcbddc','#aca4cf','#9b8ac3','#8b72b6','#7958a9','#67409c','#54278f'];
 
-    var pymChild = new pym.Child({ polling: 1000 });
+    var pymChild = new pym.Child({ polling: 500 });
     pymChild.sendHeight();
 
     function dataLoaded(data){

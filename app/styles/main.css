@@ -37,6 +37,7 @@ path.region{
 #radar-chart{
 	width: 100%;
 	min-height: 600px;
+	height: auto;
 }
 
 #lines-container{
@@ -50,7 +51,7 @@ path.region{
 }
 
 #main-col{
-	height: 700px;
+	min-height: 700px;
 }
 
 select.form-control,
