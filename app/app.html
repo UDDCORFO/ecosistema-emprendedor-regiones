@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.css" />
     <!-- endbower -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet" />
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -29,7 +30,7 @@
           <label ng-show="!loading">Año de la muestra:</label>
           <select ng-show="!loading" class="form-control" ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years">
           </select>
-          <p ng-show="!loading" class="help-block up text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Seleccione para cambiar el año de la muestra en cualquier momento</p>
+          <p ng-show="!loading" class="help-block up text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Click para cambiar el año</p>
           <div id="mapa" class="hidden-xs"></div>
           <p ng-show="!loading" class="help-block up hidden-xs text-center"><i class="glyphicon glyphicon-arrow-up"></i><br/>Click en el mapa para ver el detalle de la región</p>
         </div>

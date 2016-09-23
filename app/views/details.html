@@ -8,7 +8,7 @@
 					<h3><strong>Ranking:</strong> <span ng-show="current">#{{current.ranking}} de 15</span></h3>
 				</div>
 				<div class="col-md-6 text-center">
-					<h3><strong>Índice general:</strong> <span ng-show="current">{{current.general}}</span></h3>
+					<h3><strong>Índice general:</strong> <span ng-show="current">{{current.general | number : 2}}</span></h3>
 				</div>
 			</div>
 
@@ -40,7 +40,7 @@
 	</div>
 
 	<div class="col-md-6">
-		<a class="btn btn-block btn-lg btn-default" ng-href="#/compare/{{current.region}}">Comparar <strong>{{current.nombre}}</strong> con otra región</a>
+		<a class="btn btn-block btn-lg btn-default" ng-href="#/compare?id1={{current.region}}">Comparar <strong>{{current.nombre}}</strong> con otra región</a>
 	</div>
 
 </div>

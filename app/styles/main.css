@@ -1,5 +1,7 @@
 body {
   padding: 0;
+  color: #494c58;
+  font-family: 'Roboto', sans-serif;
 }
 
 #mapa{
@@ -36,7 +38,6 @@ path.region{
 
 #radar-chart{
 	width: 100%;
-	min-height: 600px;
 	height: auto;
 }
 
@@ -48,10 +49,11 @@ path.region{
 	background-image: url('../images/loading.gif');
 	background-repeat: no-repeat;
 	background-position: center center;
+	min-height: 600px;
 }
 
 #main-col{
-	min-height: 700px;
+
 }
 
 select.form-control,

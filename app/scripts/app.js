@@ -22,15 +22,17 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/details/:id', {
+      .when('/details', {
         templateUrl: 'views/details.html',
         controller: 'DetailsCtrl',
-        controllerAs: 'details'
+        controllerAs: 'details',
+        reloadOnSearch: false
       })
-      .when('/compare/:id1/:id2?', {
+      .when('/compare', {
         templateUrl: 'views/compare.html',
         controller: 'CompareCtrl',
-        controllerAs: 'compare'
+        controllerAs: 'compare',
+        reloadOnSearch: false
       })
       .otherwise({
         redirectTo: '/'
@@ -64,7 +66,7 @@ angular
         .duration(1000)
         .style('fill',function(d){
           if(d.id==id1){
-            return '#ff9900';
+            return '#ff8303';
           } else if(id2 && d.id==id2){
             return '#001D34';
           } else {
@@ -186,9 +188,7 @@ angular
     };
 
     $rootScope.goToDetail = function(id){
-      $rootScope.$apply(function() {
-        $location.path('/details/'+id);
-      });
+      window.location = '#/details?id='+id;
     };
 
     $rootScope.hoverMap = function(id){
@@ -260,7 +260,7 @@ angular
               return '#ddd';
             })
             .on("click",function(d){
-              $rootScope.goToDetail(d.id);
+              $rootScope.$broadcast("mapClicked",d);
             });
 
     }
