@@ -16,6 +16,10 @@ angular.module('ecosistemaEmprendedorRegionesApp')
       $timeout($scope.renderChart,1000);
   	});
 
+    $scope.$on("mapClicked", function (ev, d) {
+        $scope.goToDetail(d.id);
+    });
+
   	$scope.dimensionChanged = function(){
       if($scope.data){
     		$scope.renderChart();      

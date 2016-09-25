@@ -11,7 +11,13 @@ angular.module('ecosistemaEmprendedorRegionesApp')
   .controller('DetailsCtrl', function ($scope, $routeParams, $location, ColorService, $timeout) {
     
     $scope.$on("newData", function () {
-        $timeout($scope.init,500);
+        $timeout(function(){
+            if($scope.rendered){
+                $scope.update($routeParams.id);
+            } else {
+                $scope.init();
+            }
+        },500);
   	});
 
     $scope.$on("mapClicked", function (ev, d) {
@@ -43,7 +49,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         var detail = [];
         angular.forEach($scope.current,function(v,i){
             if(['region','nombre','ranking','general'].indexOf(i)==-1){
-                detail.push({axis:$scope.dimension_labels[i],value:v})
+                detail.push({nombre:$scope.current.nombre,ix:0,axis:$scope.dimension_labels[i],description:$scope.dimension_descriptions[i],value:v})
             }
         });
         $scope.radarData = [detail];
@@ -63,7 +69,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         ////////////////////////////////////////////////////////////// 
 
         var color = d3.scale.ordinal()
-            .range(["#EDC951","#CC333F","#00A0B0"]);
+            .range(["#ff8303"]);
             
         var radarChartOptions = {
           w: size-margin.right-margin.left,
@@ -73,7 +79,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
           levels: 10,
           roundStrokes: false,
           color: color,
-          labelFactor:1.1
+          labelFactor:1.2
         };
 
         //Call function to draw the Radar chart

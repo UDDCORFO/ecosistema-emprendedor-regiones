@@ -1,3 +1,4 @@
+'use strict';
 /////////////////////////////////////////////////////////
 /////////////// The Radar Chart Function ////////////////
 /////////////// Written by Nadieh Bremer ////////////////
@@ -30,9 +31,9 @@ function RadarChart(id, data, options) {
 	}//if
 	
 	//If the supplied maxValue is smaller than the actual one, replace by the max in the data
-	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
+	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}));}));
 		
-	var allAxis = (data[0].map(function(i, j){return i.axis})),	//Names of each axis
+	var allAxis = (data[0].map(function(i, j){return {nombre:i.axis,descripcion:i.description}; })),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
 		radius = Math.min(cfg.w/2, cfg.h/2), 	//Radius of the outermost circle
 		Format = d3.format('%'),			 	//Percentage formatting
@@ -53,7 +54,6 @@ function RadarChart(id, data, options) {
 	var svg,g,axisGrid,axis,radarLine,blobWrapper,blobCircleWrapper;
 
 	if(d3.select(id).select("svg").empty()){
-		console.info('vacío, lo creo!');
 
 		svg = d3.select(id).append("svg")
 			.attr("class", "radar"+id);
@@ -68,10 +68,7 @@ function RadarChart(id, data, options) {
 			feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
 			feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
 
-		//Set up the small tooltip for when you hover over a circle
-		var tooltip = g.append("text")
-				.attr("class", "tooltip")
-				.style("opacity", 0);
+		var tooltip;
 
 		/////////////////////////////////////////////////////////
 		/////////////// Draw the Circular grid //////////////////
@@ -111,6 +108,9 @@ function RadarChart(id, data, options) {
 			.data(allAxis)
 			.enter()
 			.append("g")
+			.attr("id",function(d,i){
+				return 'axis-'+i;
+			})
 			.attr("class", "axis");
 		
 		//Append the lines
@@ -131,11 +131,37 @@ function RadarChart(id, data, options) {
 			.attr("dy", "0.35em")
 			.attr("x", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
 			.attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
-			.text(function(d){return d})
+			.text(function(d){return d.nombre;})
+			.on("mouseover", function(d,i) {
+
+				tooltip
+					.style("left", (d3.event.pageX - 100) + "px")
+      				.style("top", (d3.event.pageY + 20) + "px")
+					.style('background-color','#aaa')
+					.style('width','200px')
+					.html(d.descripcion)
+					.style('opacity', 1);
+
+				d3.selectAll('g.axis')
+					.select('text')
+					.style('font-weight','normal');
+
+				d3.selectAll('g#axis-'+i)
+					.select('text')
+					.style('font-weight','bold');
+			})
+			.on("mouseout", function(){
+				d3.selectAll('g.axis')
+					.select('text')
+					.style('font-weight','normal');
+				tooltip
+					.style("left", 0 + "px")
+      				.style("top", 0 + "px")
+					.style("opacity", 0);
+			})
 			.call(wrap, cfg.wrapWidth);
 
 	} else {
-		console.info('tiene algo update!');
 		svg = d3.select(id).select("svg");
 		g = svg.select('g.mainGroup');
 		axisGrid = g.select("g.axisWrapper");
@@ -215,54 +241,85 @@ function RadarChart(id, data, options) {
 			.attr("d", function(d,i) { return radarLine(d); });
 		
 		//Append the circles
-		/*blobWrapper.selectAll(".radarCircle")
+		var circles = blobWrapper
+			.selectAll(".radarCircle")
 			.data(function(d,i) { return d; })
-			.enter().append("circle")
+
+		circles
+			.enter()
+			.append("circle")
 			.attr("class", "radarCircle")
 			.attr("r", cfg.dotRadius)
-			.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
-			.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
+		
+		circles	
 			.style("fill", function(d,i,j) { return cfg.color(j); })
-			.style("fill-opacity", 0.8);*/
+			.style("fill-opacity", 0.8)
+			.transition()
+			.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+			.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); });
 
 		/////////////////////////////////////////////////////////
 		//////// Append invisible circles for tooltip ///////////
 		/////////////////////////////////////////////////////////
 		
-		/*//Wrapper for the invisible circles on top
+		//Wrapper for the invisible circles on top
 		blobCircleWrapper = g.selectAll(".radarCircleWrapper")
 			.data(data)
+
+		blobCircleWrapper
 			.enter()
 			.append("g")
 			.attr("class", "radarCircleWrapper");
 			
 		//Append a set of invisible circles on top for the mouseover pop-up
-		blobCircleWrapper.selectAll(".radarInvisibleCircle")
+		var eventCircles = blobCircleWrapper.selectAll(".radarInvisibleCircle")
 			.data(function(d,i) { return d; })
+
+		eventCircles
 			.enter()
 			.append("circle")
 			.attr("class", "radarInvisibleCircle")
 			.attr("r", cfg.dotRadius*1.5)
-			.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
-			.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-			.style("fill", "none")
 			.style("pointer-events", "all")
+			.style("fill", "transparent")
 			.on("mouseover", function(d,i) {
-				newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-				newY =  parseFloat(d3.select(this).attr('cy')) - 10;
-						
+
 				tooltip
-					.attr('x', newX)
-					.attr('y', newY)
-					.text(Format(d.value))
-					.transition().duration(200)
+					.style("left", (d3.event.pageX - 50) + "px")
+      				.style("top", (d3.event.pageY + 10) + "px")
+      				.style('width','100px')
+					.style('background-color',cfg.color(d.ix))
+					.html(d.nombre + ' ' + d.value.toFixed(2))
 					.style('opacity', 1);
+
+				d3.selectAll('g.axis')
+					.select('text')
+					.style('font-weight','normal');
+
+				d3.selectAll('g#axis-'+i)
+					.select('text')
+					.style('font-weight','bold');
+
 			})
 			.on("mouseout", function(){
-				tooltip.transition().duration(200)
+				d3.selectAll('g.axis')
+					.select('text')
+					.style('font-weight','normal');
+				tooltip
+					.style("left", 0 + "px")
+      				.style("top", 0 + "px")
 					.style("opacity", 0);
 			});
-*/
+			
+		eventCircles
+			.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+			.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
+
+		//Set up the small tooltip for when you hover over a circle
+		var tooltip = d3.select('body')
+				.append("div")
+				.attr("id", "tooltip")
+				.style("opacity", 0);
 
 	/////////////////////////////////////////////////////////
 	/////////////////// Helper Function /////////////////////

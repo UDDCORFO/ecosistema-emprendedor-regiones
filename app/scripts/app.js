@@ -43,8 +43,9 @@ angular
     this.getThresholdScale = function(min,max){
       var d = (max-min)/10;
       return d3.scale.threshold()
-//          .range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
-          .range(['#001d34','#2a2734','#443233','#5e3d32','#784830','#92532d','#ac5f29','#c76b23','#e27619','#ff8303'])
+          //.range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
+          //.range(['#001d34','#2a2734','#443233','#5e3d32','#784830','#92532d','#ac5f29','#c76b23','#e27619','#ff8303'])
+          .range(['#001d34','#2f2934','#4e3633','#6d4331','#8c502e','#ac5e29','#cc6c21','#ec7b13','#ff932e','#ffb365'])
           .domain([min+1*d,min+2*d,min+3*d,min+4*d,min+5*d,min+6*d,min+7*d,min+8*d,min+9*d,min+10*d]);
     };
 
@@ -137,6 +138,24 @@ angular
       n_hgrow: 'Creación de empresas de alto crecimiento',
       n_global: 'Internacionalización',
       n_finance: 'Financiamiento disponible'
+    };
+
+    $rootScope.dimension_descriptions = {
+      general: ' Descripción Índice general',
+      n_opp: ' Descripción Percepción de Oportunidades',
+      n_start: ' Descripción Habilidades de Emprendimiento',
+      n_risk: ' Descripción Tolerancia al Riesgo',
+      n_network: ' Descripción Calidad de redes de trabajo',
+      n_cultsupp: ' Descripción Aceptación cultural al emprendimiento',
+      n_oppstart: ' Descripción Facilidad para iniciar negocios',
+      n_techno: ' Descripción Absorbción tecnológica',
+      n_hc: ' Descripción Calidad de los recursos humanos',
+      n_compet: ' Descripción Nivel de competencia',
+      n_pinnov: ' Descripción Desarrollo de nuevos productos',
+      n_procinn: ' Descripción Desarrollo de nuevas tecnologías',
+      n_hgrow: ' Descripción Creación de empresas de alto crecimiento',
+      n_global: ' Descripción Internacionalización',
+      n_finance: ' Descripción Financiamiento disponible'
     };
 
     $rootScope.dimension_options = [];

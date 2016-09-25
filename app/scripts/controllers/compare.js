@@ -12,7 +12,13 @@ angular.module('ecosistemaEmprendedorRegionesApp')
     
     $scope.$on("newData", function () {
   		//$scope.setup();
-        $timeout($scope.init,500);
+        $timeout(function(){
+            if($scope.rendered){
+                $scope.update($routeParams.id1,$routeParams.id2);
+            } else {
+                $scope.init();
+            }
+        },500);
   	});
 
     $scope.$on("mapClicked", function (ev, d) {
@@ -55,7 +61,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         var detail = [];
         angular.forEach($scope.region1,function(v,i){
             if(['region','nombre','ranking','general'].indexOf(i)==-1){
-                detail.push({axis:$scope.dimension_labels[i],value:v})
+                detail.push({nombre:$scope.region1.nombre,ix:0,axis:$scope.dimension_labels[i],description:$scope.dimension_descriptions[i],value:v})
             }
         });
 
@@ -65,7 +71,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
             var detail2 = [];
             angular.forEach($scope.region2,function(v,i){
                 if(['region','nombre','ranking','general'].indexOf(i)==-1){
-                    detail2.push({axis:$scope.dimension_labels[i],value:v})
+                    detail2.push({nombre:$scope.region2.nombre,ix:1,axis:$scope.dimension_labels[i],description:$scope.dimension_descriptions[i],value:v})
                 }
             });
 
@@ -93,7 +99,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
           levels: 10,
           roundStrokes: false,
           color: $scope.colorest,
-          labelFactor:1.1
+          labelFactor:1.2
         };
         //$('#radar-chart').html('<p>ALTO CHART</p>');
         //Call function to draw the Radar chart
