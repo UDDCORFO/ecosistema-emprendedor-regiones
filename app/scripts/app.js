@@ -124,9 +124,9 @@ angular
 
     $rootScope.dimension_labels = {
       general: 'Índice general',
-      n_opp: 'Percepción de Oportunidades',
-      n_start: 'Habilidades de Emprendimiento',
-      n_risk: 'Tolerancia al Riesgo',
+      n_opp: 'Percepción oportunidades',
+      n_start: 'Habilidades emprendimiento',
+      n_risk: 'Tolerancia al fracaso',
       n_network: 'Calidad de redes de trabajo',
       n_cultsupp: 'Aceptación cultural al emprendimiento',
       n_oppstart: 'Facilidad para iniciar negocios',
@@ -141,21 +141,21 @@ angular
     };
 
     $rootScope.dimension_descriptions = {
-      general: ' Descripción Índice general',
-      n_opp: ' Descripción Percepción de Oportunidades',
-      n_start: ' Descripción Habilidades de Emprendimiento',
-      n_risk: ' Descripción Tolerancia al Riesgo',
-      n_network: ' Descripción Calidad de redes de trabajo',
-      n_cultsupp: ' Descripción Aceptación cultural al emprendimiento',
-      n_oppstart: ' Descripción Facilidad para iniciar negocios',
-      n_techno: ' Descripción Absorbción tecnológica',
-      n_hc: ' Descripción Calidad de los recursos humanos',
-      n_compet: ' Descripción Nivel de competencia',
-      n_pinnov: ' Descripción Desarrollo de nuevos productos',
-      n_procinn: ' Descripción Desarrollo de nuevas tecnologías',
-      n_hgrow: ' Descripción Creación de empresas de alto crecimiento',
-      n_global: ' Descripción Internacionalización',
-      n_finance: ' Descripción Financiamiento disponible'
+      general: 'Índice general construído en base a todos los índices relevados.',
+      n_opp: 'Percepción de oportunidades de emprendimiento, ponderado por el potencial del mercado regional.',
+      n_start: 'Percepción de habilidad individual para emprender, ponderado por la calidad de recursos humanos disponibles en la región.',
+      n_risk: 'Percepción de posibilidad de fracaso, ponderado por el riesgo de negocios en la región.',
+      n_network: 'Capacidad de movilizar recursos y aprovechar oportunidades entre redes de trabajo, ponderado por la conectividad de la región.',
+      n_cultsupp: 'Opinión sobre el emprendimiento, ponderado por la percepción de corrupción.',
+      n_oppstart: 'Proporción de emprendedores oportunistas, ponderado por la percepción de corrupción regional.',
+      n_techno: 'Proporción de emprendedores que adoptaron tecnologías, ponderado por la conectividad digital de la región.',
+      n_hc: 'Proporción de emprendedores con al menos educación secundaria, ponderado por la productividad laboral de la región.',
+      n_compet: 'Intensidad de competencia entre emprendedores del mismo producto, ponderado por una medida de rigideces laborales de la región.',
+      n_pinnov: 'Potencial de los emprendedores a irrumpir en un mercado con un producto nuevo, ponderado por una medida regional de innovación.',
+      n_procinn: 'Potencial de los emprendedores para irrumpir en un mercado con un proceso productivo nuevo, ponderado por una medida regional de innovación.',
+      n_hgrow: 'Percepción de crecimiento futuro del emprendimiento, ponderado por el nivel de sofisticación del mercado.',
+      n_global: 'Tendencia de los emprendedores a exportar sus productos, ponderado por la exposición al exterior que tiene la región.',
+      n_finance: 'Medida del financiamiento (informal) disponible, ponderado por la infraestructura financiera regional.'
     };
 
     $rootScope.dimension_options = [];

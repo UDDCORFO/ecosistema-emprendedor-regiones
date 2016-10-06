@@ -1,55 +1,41 @@
 <div class="row">
-	<div class="col-xs-12 text-center">
-		<label>Comparativa entre regiones</label>
+	<div class="col-sm-6">
+		<a class="btn btn-link btn-udd" ng-href="#/"><i class="glyphicon glyphicon-indent-right"></i> Gráfico principal</a>
 	</div>
-	<div class="col-sm-5 text-center">
+	<div class="col-sm-6 text-right">
+	</div>
+	<div class="col-sm-12">
+		<p class="help-block text-center"><i class="glyphicon glyphicon-arrow-down"></i> Seleccione las regiones a comparar <i class="glyphicon glyphicon-arrow-down"></i></p>
+	</div>
+</div>
+<div class="row">
+
+	<div id="region1" class="col-sm-6">
 		<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id1" ng-change="changeSelect()"></select>
+		<div class="row">
+			<p class="col-sm-12 text-center"><strong>Región:</strong> {{romanize(region1.region)}}</p>
+		</div>
+		<div class="row">
+			<p class="col-sm-6 text-center"><strong>Ranking:</strong> #{{region1.ranking}} de 15</p>
+			<p class="col-sm-6 text-center"><strong>Índice general:</strong> {{region1.general | number : 2}}</p>
+		</div>
 	</div>
-	<div class="col-sm-2 text-center">
-		<label>-</label>
-	</div>
-	<div class="col-sm-5 text-center">
+	<div id="region2" class="col-sm-6">
 		<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id2" ng-change="changeSelect()">
 			<option value="">-- Seleccionar región para comparar --</option>
 		</select>
-	</div>
-</div>
-<hr/>
-<div class="row">
-	<div class="col-xs-5 text-center">
 		<div class="row">
-			<p class="col-sm-6"><i class="glyphicon glyphicon-certificate" style="color:{{colorest(0)}}"></i> <strong>{{region1.nombre}}</strong></p>
-			<p class="col-sm-6 text-muted"><strong>Región:</strong> {{romanize(region1.region)}}</p>
+			<p class="col-sm-12 text-center"><strong>Región:</strong> <span ng-show="id2">{{romanize(region2.region)}}</span></p>
 		</div>
 		<div class="row">
-			<p class="col-sm-6"><strong>Ranking:</strong> #{{region1.ranking}} de 15</p>
-			<p class="col-sm-6"><strong>Índice general:</strong> {{region1.general | number : 2}}</p>
+			<p class="col-sm-6 text-center"><strong>Ranking:</strong> <span ng-show="id2">#{{region2.ranking}} de 15</span></p>
+			<p class="col-sm-6 text-center"><strong>Índice general:</strong> <span ng-show="id2">{{region2.general | number : 2}}</span></p>
 		</div>
 	</div>
-	<div class="col-sm-2 text-center">
-		<label>-</label>
-	</div>
-	<div ng-show="id2" class="col-xs-5 text-center">
-		<div class="row">
-			<p class="col-sm-6"><i class="glyphicon glyphicon-certificate" style="color:{{colorest(1)}}"></i> <strong>{{region2.nombre}}</strong></p>
-			<p class="col-sm-6 text-muted"><strong>Región:</strong> {{romanize(region2.region)}}</p>
-		</div>
-		<div class="row">
-			<p class="col-sm-6"><strong>Ranking:</strong> #{{region2.ranking}} de 15</p>
-			<p class="col-sm-6"><strong>Índice general:</strong> {{region2.general | number : 2}}</p>
-		</div>
-	</div>
+
 </div>
 <div class="row">
-	<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+	<div id="radar-chart-container" class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
 		<div id="radar-chart"></div>
 	</div>
-</div>
-
-<div class="row">
-
-	<div class="col-md-12">
-		<a class="btn btn-block btn-lg btn-default" ng-href="#/">Volver a gráfico principal</a>
-	</div>
-
 </div>

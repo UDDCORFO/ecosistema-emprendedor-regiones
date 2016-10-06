@@ -61,7 +61,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         //////////////////////// Set-Up ////////////////////////////// 
         ////////////////////////////////////////////////////////////// 
 
-        var margin = {top: 100, right: 100, bottom: 100, left: 100},
+        var margin = {top: 100, right: 150, bottom: 100, left: 150},
             size = w;
 
         ////////////////////////////////////////////////////////////// 
