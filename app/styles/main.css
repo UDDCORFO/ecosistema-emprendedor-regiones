@@ -17,6 +17,7 @@ body {
 	font-weight: bold;
 	color: #fff;
 	height: auto;
+	pointer-events: none;
 }
 
 circle.radarInvisibleCircle,
@@ -126,6 +127,7 @@ p.help-block .spacer{
 
 #sidebar{
 	border-right: 1px solid #ddd;
+	margin-bottom: 40px;
 }
 
 .promedio-line line{

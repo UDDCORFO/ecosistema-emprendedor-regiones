@@ -142,18 +142,18 @@ angular
 
     $rootScope.dimension_descriptions = {
       general: 'Índice general construído en base a todos los índices relevados.',
-      n_opp: 'Percepción de oportunidades de emprendimiento, ponderado por el potencial del mercado regional.',
+      n_opp: 'Emprendimiento por oportunidad ponderado por la percepción de barreras a nuevas oportunidades de emprendimiento en la región.',
       n_start: 'Percepción de habilidad individual para emprender, ponderado por la calidad de recursos humanos disponibles en la región.',
       n_risk: 'Percepción de posibilidad de fracaso, ponderado por el riesgo de negocios en la región.',
       n_network: 'Capacidad de movilizar recursos y aprovechar oportunidades entre redes de trabajo, ponderado por la conectividad de la región.',
-      n_cultsupp: 'Opinión sobre el emprendimiento, ponderado por la percepción de corrupción.',
+      n_cultsupp: 'Soporte cultural al emprendimiento ponderado por la cohesión para apoyar el emprendimiento.',
       n_oppstart: 'Proporción de emprendedores oportunistas, ponderado por la percepción de corrupción regional.',
       n_techno: 'Proporción de emprendedores que adoptaron tecnologías, ponderado por la conectividad digital de la región.',
       n_hc: 'Proporción de emprendedores con al menos educación secundaria, ponderado por la productividad laboral de la región.',
       n_compet: 'Intensidad de competencia entre emprendedores del mismo producto, ponderado por una medida de rigideces laborales de la región.',
       n_pinnov: 'Potencial de los emprendedores a irrumpir en un mercado con un producto nuevo, ponderado por una medida regional de innovación.',
       n_procinn: 'Potencial de los emprendedores para irrumpir en un mercado con un proceso productivo nuevo, ponderado por una medida regional de innovación.',
-      n_hgrow: 'Percepción de crecimiento futuro del emprendimiento, ponderado por el nivel de sofisticación del mercado.',
+      n_hgrow: 'Potencial de crecimiento futuro ponderado por el nivel de sofisticación del mercado.',
       n_global: 'Tendencia de los emprendedores a exportar sus productos, ponderado por la exposición al exterior que tiene la región.',
       n_finance: 'Medida del financiamiento (informal) disponible, ponderado por la infraestructura financiera regional.'
     };
