@@ -36,6 +36,8 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
     		$scope.chartData = $scope.prepareData();
 
+        console.log($scope.chartData);
+
     		var dataConfig = {
   			        json: $scope.chartData,
   			        type:'bar',
@@ -136,7 +138,7 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         $scope.sum += value;
         $scope.qty += 1;
         $scope.avg = Math.round(($scope.sum / $scope.qty) * 100) / 100;
-        return {id:d.region,name:d.nombre,value:value,color:$scope.colorScale(value)}
+        return {id:d.region,name:d.nombre,value:parseFloat(value),color:$scope.colorScale(value)}
       }).sort(function(a,b){
         return (a.value<b.value)?1:-1;
       });

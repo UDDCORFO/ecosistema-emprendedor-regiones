@@ -15,7 +15,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider,$locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -37,6 +37,7 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+      $locationProvider.hashPrefix("");
   })
   .service('ColorService', function () {
 
