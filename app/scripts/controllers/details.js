@@ -46,7 +46,6 @@ angular.module('ecosistemaEmprendedorRegionesApp')
         ColorService.selectRegion($scope.id);
 
         var w = Math.round(d3.select("#radar-chart").node().getBoundingClientRect().width);
-        console.log(w);
         var detail = [];
         angular.forEach($scope.current,function(v,i){
             if(['region','nombre','ranking','general'].indexOf(i)==-1){
