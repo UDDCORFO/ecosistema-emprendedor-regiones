@@ -36,8 +36,6 @@ angular.module('ecosistemaEmprendedorRegionesApp')
 
     		$scope.chartData = $scope.prepareData();
 
-        console.log($scope.chartData);
-
     		var dataConfig = {
   			        json: $scope.chartData,
   			        type:'bar',
