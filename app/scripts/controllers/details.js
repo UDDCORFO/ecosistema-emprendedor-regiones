@@ -26,10 +26,16 @@ angular
       }, 500);
     });
 
-    $scope.$on("mapClicked", function(ev, d) {
+    /*    $scope.$on("mapClicked", function(ev, d) {
       $scope.$apply(function() {
         $scope.update(d.id);
       });
+    });*/
+
+    $scope.$on("regionChanged", function(ev, d) {
+      if ($scope.data && $scope.rendered) {
+        $scope.update(d.id);
+      }
     });
 
     $scope.rendered = false;

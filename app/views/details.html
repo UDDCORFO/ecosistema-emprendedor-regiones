@@ -1,49 +1,44 @@
-<div class="row">
+<div class="col-xs-12">
 
-	<div class="col-sm-6">
-		<a class="btn btn-link btn-udd" ng-href="#/"><i class="glyphicon glyphicon-indent-right"></i> Gráfico principal</a>
-	</div>
-	<div class="col-sm-6 text-right">
-		<a class="btn btn-link btn-udd" ng-href="#/compare?id1={{current.region}}">Comparar {{current.nombre}} <i class="glyphicon glyphicon-th-large"></i></a>
-	</div>
-	<div class="col-sm-12">
-		<p class="help-block text-center"><i class="glyphicon glyphicon-arrow-down"></i> Click en las flechas para cambiar de región <i class="glyphicon glyphicon-arrow-down"></i></p>
-	</div>
-	<div id="header-details" class="col-sm-12">
-			<div class="row" id="text-details">
-				<div class="col-md-12">
-					<h2 class="text-center"><span ng-show="current">{{current.nombre}}</span><span ng-hide="current"><small>Cargando...</small></span></h2>
-				</div>
-				<div class="col-sm-4 text-center">
-					<p><strong>Ranking:</strong> <span ng-show="current">#{{current.ranking}} de 15</span></p>
-				</div>
-				<div class="col-sm-4 text-center">
-					<p>Región {{romanize(current.region)}}</p>
-				</div>
-				<div class="col-sm-4 text-center">
-					<p><strong>Índice general:</strong> <span ng-show="current">{{current.general | number : 2}}</span></p>
+	<!--div class="row">
+
+		<div id="header-details" class="col-sm-12">
+				<div class="row" id="text-details">
+					<div class="col-md-12">
+						<h2 class="text-center"><span ng-show="current">{{current.nombre}}</span><span ng-hide="current"><small>Cargando...</small></span></h2>
+					</div>
+					<div class="col-sm-4 text-center">
+						<p><strong>Ranking:</strong> <span ng-show="current">#{{current.ranking}} de 15</span></p>
+					</div>
+					<div class="col-sm-4 text-center">
+						<p>Región {{romanize(current.region)}}</p>
+					</div>
+					<div class="col-sm-4 text-center">
+						<p><strong>Índice general:</strong> <span ng-show="current">{{current.general | number : 2}}</span></p>
+					</div>
+
+					<a class="left carousel-control" ng-click="prev()">
+				       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				       <span class="sr-only">Previous</span>
+				   	</a>
+
+					<a class="right carousel-control" ng-click="next()">
+				       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				       <span class="sr-only">Previous</span>
+				   	</a>
 				</div>
 
-				<a class="left carousel-control" ng-click="prev()">
-			       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			       <span class="sr-only">Previous</span>
-			   	</a>
+		</div>
 
-				<a class="right carousel-control" ng-click="next()">
-			       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-			       <span class="sr-only">Previous</span>
-			   	</a>
+	</div-->
+
+	<div class="row">
+		<div id="radar-chart-container" class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
+			<div id="radar-chart" ng-class="{loading:loadingDetail}">
+				
 			</div>
-
-	</div>
-
-</div>
-
-<div class="row">
-	<div id="radar-chart-container" class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
-		<div id="radar-chart" ng-class="{loading:loadingDetail}">
-			
 		</div>
 	</div>
+
 </div>
 
