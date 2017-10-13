@@ -253,10 +253,12 @@ angular
           : $location.path().replace("/", "");
 
       $rootScope.selectedDimension = "general";
-      $rootScope.selectedRegion = $routeParams.id;
+      $rootScope.selectedRegion = "1";
+      $rootScope.selectedVsRegion = "2";
 
       $rootScope.yearChanged();
       $rootScope.regionChanged();
+      $rootScope.vsRegionChanged();
 
       $rootScope.loading = false;
     }
@@ -270,7 +272,7 @@ angular
           $rootScope.goToDetail(1);
           break;
         case "compare":
-          $rootScope.goToCompare($routeParams.id ? $routeParams.id : 1, "");
+          $rootScope.goToCompare(1, 2);
           break;
       }
     };
@@ -281,6 +283,16 @@ angular
         parseInt($rootScope.selectedRegion)
       ]);
       $rootScope.$broadcast("regionChanged", { id: $rootScope.selectedRegion });
+    };
+
+    $rootScope.vsRegionChanged = function() {
+      $rootScope.vsRegion = _.find($rootScope.data, [
+        "region",
+        parseInt($rootScope.selectedVsRegion)
+      ]);
+      $rootScope.$broadcast("vsRegionChanged", {
+        id: $rootScope.selectedVsRegion
+      });
     };
 
     $rootScope.yearChanged = function() {
@@ -304,12 +316,13 @@ angular
     };
 
     $rootScope.goToDetail = function(id) {
-      window.location = "#/details?id=" + id;
       $rootScope.selectedView = "details";
+      $rootScope.selectedRegion = id + "";
+      window.location = "#/details?id=" + id;
     };
 
     $rootScope.goToCompare = function(id1, id2) {
-      window.location = "#/compare?id1=" + id1 + "&id2=" + id2;
+      window.location = "#/compare?id=" + id1 + "&id2=" + id2;
     };
 
     $rootScope.hoverMap = function(id) {
@@ -408,10 +421,12 @@ angular
               $rootScope.regionChanged();
               break;
             case "compare":
-              //$rootScope.goToCompare($routeParams.id ? $routeParams.id : 1, "");
+              $rootScope.$apply(function() {
+                $rootScope.selectedVsRegion = d.id + "";
+              });
+              $rootScope.vsRegionChanged();
               break;
           }
-          //$rootScope.$broadcast("mapClicked", d);
         });
     }
 

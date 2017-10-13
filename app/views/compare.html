@@ -1,19 +1,9 @@
 <div class="col-sm-10 col-xs-12">
 
 	<div class="row">
-		<div class="col-sm-6">
-			<a class="btn btn-link btn-udd" ng-href="#/"><i class="glyphicon glyphicon-indent-right"></i> Gráfico principal</a>
-		</div>
-		<div class="col-sm-6 text-right">
-		</div>
-		<div class="col-sm-12">
-			<p class="help-block text-center"><i class="glyphicon glyphicon-arrow-down"></i> Seleccione las regiones a comparar <i class="glyphicon glyphicon-arrow-down"></i></p>
-		</div>
-	</div>
-	<div class="row">
 
 		<div id="region1" class="col-sm-6">
-			<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id1" ng-change="changeSelect()"></select>
+			<h2>{{region1.nombre}}</h2>
 			<div class="row">
 				<p class="col-sm-12 text-center"><strong>Región:</strong> {{romanize(region1.region)}}</p>
 			</div>
@@ -23,9 +13,7 @@
 			</div>
 		</div>
 		<div id="region2" class="col-sm-6">
-			<select class="form-control" ng-options="key as value for (key , value) in regions" ng-model="id2" ng-change="changeSelect()">
-				<option value="">-- Seleccionar región para comparar --</option>
-			</select>
+			<h2>{{region2.nombre}}</h2>
 			<div class="row">
 				<p class="col-sm-12 text-center"><strong>Región:</strong> <span ng-show="id2">{{romanize(region2.region)}}</span></p>
 			</div>

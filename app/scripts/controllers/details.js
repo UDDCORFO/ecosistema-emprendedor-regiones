@@ -76,7 +76,14 @@ angular
         }
       });
 
-      if (w < 600) {
+      if (
+        Math.round(
+          d3
+            .select("body")
+            .node()
+            .getBoundingClientRect().width
+        ) < 700
+      ) {
         $scope.renderLineChart(w, detail);
       } else {
         $scope.renderRadarChart(w, detail);

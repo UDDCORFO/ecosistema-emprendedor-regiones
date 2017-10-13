@@ -26,29 +26,31 @@
 
       <div id="main-control-header">
         <div class="row">
-          <div class="col-md-9">
+          <div class="col-sm-9">
             <h2>Ecosistema de Emprendimiento</h2>
           </div>
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <select class="form-control" ng-change="viewChanged()" ng-model="selectedView" ng-options="y.id as y.name for y in views"></select>
           </div>
         </div>
         
         <div class="row">
-          <div class="col-md-9">
+          <div class="col-sm-9">
             
             <select ng-show="selectedView=='main'" class="form-control" ng-change="dimensionChanged()" ng-options="o.key as o.value for o in dimension_options" ng-model="selectedDimension"></select>
           
-            <select ng-show="selectedView=='details'" class="form-control" ng-options="key as value for (key , value) in regions" ng-model="selectedRegion" ng-change="regionChanged()"></select>
+            <select ng-show="selectedView=='details' || selectedView=='compare'" class="form-control" ng-options="key as value for (key , value) in regions" ng-model="selectedRegion" ng-change="regionChanged()"></select>
           </div>
-          <div class="col-md-3">
+
+          <div class="col-sm-3">
             <select class="form-control" ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years"></select>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-sm-12">
             <span ng-if="selectedView=='main'">{{dimension_descriptions[selectedDimension]}}</span>
             <div  ng-if="selectedView=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}} </div>
+            <select ng-show="selectedView=='compare'" class="form-control" ng-options="key as value for (key , value) in regions" ng-model="selectedVsRegion" ng-change="vsRegionChanged()"></select>
           </div>
         </div>
 

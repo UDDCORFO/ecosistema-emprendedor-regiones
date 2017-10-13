@@ -20,17 +20,23 @@ angular
       //$scope.setup();
       $timeout(function() {
         if ($scope.rendered) {
-          $scope.update($routeParams.id1, $routeParams.id2);
+          $scope.update($routeParams.id, $routeParams.id2);
         } else {
           $scope.init();
         }
       }, 500);
     });
 
-    $scope.$on("mapClicked", function(ev, d) {
-      $scope.$apply(function() {
+    $scope.$on("regionChanged", function(ev, d) {
+      if ($scope.data && $scope.rendered) {
+        $scope.update(d.id, $scope.id2);
+      }
+    });
+
+    $scope.$on("vsRegionChanged", function(ev, d) {
+      if ($scope.data && $scope.rendered) {
         $scope.update($scope.id1, d.id);
-      });
+      }
     });
 
     $scope.rendered = false;
@@ -38,16 +44,17 @@ angular
     $scope.init = function() {
       if ($scope.data && !$scope.rendered) {
         $scope.rendered = true;
-        $scope.update($routeParams.id1, $routeParams.id2);
+        $scope.update($routeParams.id, $routeParams.id2);
       }
     };
 
     $scope.update = function(id1, id2) {
-      console.log("update");
+      console.log("update compare", id1, id2);
       $scope.colorest = d3.scale.ordinal().range(["#ff8303", "#001d34"]);
 
-      $location.search("id1", id1);
+      $location.search("id", id1);
       $location.search("id2", id2);
+
       $scope.id1 = id1;
       $scope.region1 = _.find($scope.data, ["region", parseInt(id1)]);
       if (id2) {
@@ -95,17 +102,20 @@ angular
           .getBoundingClientRect().width
       );
 
-      if (w < 600) {
+      if (
+        Math.round(
+          d3
+            .select("body")
+            .node()
+            .getBoundingClientRect().width
+        ) < 700
+      ) {
         $scope.renderLineChart(w, $scope.radarData);
       } else {
         $scope.renderRadarChart(w, $scope.radarData);
       }
 
       //$scope.renderChart();
-    };
-
-    $scope.changeSelect = function() {
-      $scope.update($scope.id1, $scope.id2);
     };
 
     var chart;
