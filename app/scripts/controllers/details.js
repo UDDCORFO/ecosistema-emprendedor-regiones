@@ -17,6 +17,7 @@ angular
     $timeout
   ) {
     $scope.$on("newData", function() {
+      console.log("newData DETAILS");
       $timeout(function() {
         if ($scope.rendered) {
           $scope.update($routeParams.id);
@@ -25,12 +26,6 @@ angular
         }
       }, 500);
     });
-
-    /*    $scope.$on("mapClicked", function(ev, d) {
-      $scope.$apply(function() {
-        $scope.update(d.id);
-      });
-    });*/
 
     $scope.$on("regionChanged", function(ev, d) {
       if ($scope.data && $scope.rendered) {
@@ -113,7 +108,8 @@ angular
           bindto: "#radar-chart",
           data: dataConfig,
           size: {
-            height: 500
+            height: 500,
+            width: w
           },
           padding: {
             top: 0

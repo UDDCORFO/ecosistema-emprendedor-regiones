@@ -322,6 +322,9 @@ angular
     };
 
     $rootScope.goToCompare = function(id1, id2) {
+      $rootScope.selectedView = "compare";
+      $rootScope.selectedRegion = id1 + "";
+      $rootScope.selectedVsRegion = id2 + "";
       window.location = "#/compare?id=" + id1 + "&id2=" + id2;
     };
 
@@ -414,6 +417,9 @@ angular
         })
         .on("click", function(d) {
           switch ($rootScope.selectedView) {
+            case "main":
+              $rootScope.goToDetail(d.id);
+              break;
             case "details":
               $rootScope.$apply(function() {
                 $rootScope.selectedRegion = d.id + "";
@@ -423,8 +429,8 @@ angular
             case "compare":
               $rootScope.$apply(function() {
                 $rootScope.selectedVsRegion = d.id + "";
+                $rootScope.vsRegionChanged();
               });
-              $rootScope.vsRegionChanged();
               break;
           }
         });

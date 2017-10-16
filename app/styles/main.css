@@ -1,16 +1,16 @@
 body {
-  padding: 0;
-  color: #494c58;
-  font-family: 'Lato', sans-serif;
+	padding: 0;
+	color: #494c58;
+	font-family: "Lato", sans-serif;
 }
 .c3 svg text {
-	  font-family: 'Lato', sans-serif;	
+	font-family: "Lato", sans-serif;
 }
 
-#tooltip{
+#tooltip {
 	position: absolute;
-	top:0px;
-	left:0px;
+	top: 0px;
+	left: 0px;
 	width: auto;
 	padding: 5px;
 	text-align: center;
@@ -21,181 +21,196 @@ body {
 }
 
 circle.radarInvisibleCircle,
-text.legend{
+text.legend {
 	cursor: pointer;
 }
 
-#mapa{
+#mapa {
 	width: 100%;
 }
 
-.c3-axis-x .tick{
+.c3-axis-x .tick {
 	cursor: pointer;
 }
 
-.c3-axis-x .tick.hover{
+.c3-axis-x .tick.hover {
 	font-weight: bold;
-	font-size: 14px;	
+	font-size: 14px;
 }
 
-path.region{
+path.region {
 	cursor: pointer;
 }
 
 .carousel-control.right,
-.carousel-control.left
-{
+.carousel-control.left {
 	cursor: pointer;
 	background-image: none;
 	opacity: 1;
-	color:white;
-
+	color: white;
 }
 
-.carousel-control .glyphicon{
+.carousel-control .glyphicon {
 	margin-top: -30%;
 }
 
 .carousel-control.right:hover,
-.carousel-control.left:hover{
+.carousel-control.left:hover {
 	color: #ff8303;
 }
 
-#radar-chart{
+#radar-chart {
 	width: 100%;
 	height: auto;
 }
 
-#radar-chart-container{
+#radar-chart-container {
 	padding: 0px;
 }
 
-#lines-container{
+#lines-container {
 	width: 100%;
 }
 
-.loading{
-	background-image: url('../images/loading.gif');
+.loading {
+	background-image: url("../images/loading.gif");
 	background-repeat: no-repeat;
 	background-position: center center;
 	min-height: 600px;
 }
 
-#main-col{
-
+#main-col {
 }
 
 select.form-control,
 select.form-control:focus {
 	outline: none;
-	-webkit-appearance:none;
-	box-shadow:none;
-	-webkit-box-shadow:none;
+	-webkit-appearance: none;
+	box-shadow: none;
+	-webkit-box-shadow: none;
 	transition: none;
 	-o-transition: none;
 	border-radius: 0px;
 	border-color: #001d34;
 }
 
-label{
+label {
 	margin-top: 15px;
 	margin-bottom: 5px;
 }
 
-p.help-block{
+p.help-block {
 	color: #aaa;
 }
 
-p.help-block.up{
+p.help-block.up {
 	margin-top: 0;
 	margin-bottom: 10px;
 }
-p.help-block.down{
+p.help-block.down {
 	margin-top: 10px;
 	margin-bottom: 0;
 }
 
-p.help-block.to-select{
+p.help-block.to-select {
 	margin-top: 23px;
 	margin-bottom: 0px;
 }
 
-p.help-block .spacer{
+p.help-block .spacer {
 	width: 65px;
 	display: inline-block;
 }
 
-#sidebar{
+#sidebar {
 	border-right: 1px solid #ddd;
-	margin-bottom: 40px;
 }
 
-.promedio-line line{
-
+.promedio-line line {
 }
-.promedio-line text{
+.promedio-line text {
 	font-size: 13px;
 }
 
-#descripcion{
+#descripcion {
 	padding: 10px 20px;
 	background-color: #001d34;
 	color: white;
 	margin-top: 10px;
 }
-#descripcion p{
+#descripcion p {
 	padding: 0;
 	margin: 0;
 }
 
-#text-details{
+#text-details {
 	background-color: #001d34;
 	color: white;
 	padding: 10px 0px;
 }
 
-#text-details h2{
+#text-details h2 {
 	margin: 20px 0;
 }
 
-#region1{
-	background-color: #ff8303;
-	color: white;
-	padding: 10px;
-	height: 100%;
-}
-
-#region2{
-	background-color: #001d34;
-	color: white;
-	padding: 10px;
-	height: 100%;
-}
-#region1 p,
-#region2 p{
-	margin: 0px;
-	margin-top: 7px;
-}
-
-.btn-udd{
-	color:#0060aa;
+.btn-udd {
+	color: #0060aa;
 }
 .btn-udd:hover,
-.btn-udd:focus{
+.btn-udd:focus {
 	text-decoration: none;
-	color:#00355e;
+	color: #00355e;
 }
 
-/*#001d34*/
-/*#ff8303*/
+.reference-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.reference {
+	margin: 20px 20px 20px 20px;
+}
+
+.reference p {
+	margin: 0px;
+	padding-left: 25px;
+}
+
+.reference .name {
+	font-size: 20px;
+	padding-left: 0px;
+}
+
+.reference .block {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	margin-right: 10px;
+	border-width: 2px;
+	border-style: solid;
+}
+
+.reference .block.block-color1 {
+	border-color: #ff8303;
+	background-color: rgba(255, 131, 0, 0.5);
+}
+
+.reference .block.block-color2 {
+	border-color: #001d34;
+	background-color: rgba(0, 29, 53, 0.5);
+}
+
+#main-control-header {
+	background-color: #ccc;
+	padding: 10px;
+}
 
 /* Responsive: Portrait tablets and up */
-@media only screen and (max-width : 767px) {
-
-	p.help-block.to-select{
+@media only screen and (max-width: 767px) {
+	p.help-block.to-select {
 		margin-top: 0px;
 		margin-bottom: 4px;
 		text-align: center;
 	}
-
 }

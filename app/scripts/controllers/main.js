@@ -22,10 +22,6 @@ angular
       $timeout($scope.renderChart, 500);
     });
 
-    $scope.$on("mapClicked", function(ev, d) {
-      $scope.goToDetail(d.id);
-    });
-
     $scope.$on("dimensionChanged", function(ev, d) {
       $scope.dimension_selected = d.dim;
       if ($scope.data) {
@@ -38,6 +34,12 @@ angular
     $scope.colorScale = ColorService.getThresholdScale(-0.001, 1.1);
 
     $scope.renderChart = function() {
+      var w = Math.round(
+        d3
+          .select("#lines-container")
+          .node()
+          .getBoundingClientRect().width
+      );
       if ($scope.data) {
         $scope.chartData = $scope.prepareData();
 
@@ -64,7 +66,8 @@ angular
             bindto: "#lines-container",
             data: dataConfig,
             size: {
-              height: 600
+              height: 600,
+              width: w
             },
             padding: {
               top: 0
@@ -176,5 +179,7 @@ angular
       $scope.unhoverMap(id);
     };
 
-    $scope.renderChart();
+    $timeout(function() {
+      $scope.renderChart();
+    }, 500);
   });

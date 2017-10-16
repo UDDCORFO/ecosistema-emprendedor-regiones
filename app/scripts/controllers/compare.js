@@ -18,6 +18,7 @@ angular
   ) {
     $scope.$on("newData", function() {
       //$scope.setup();
+      console.log("newData COMPARE");
       $timeout(function() {
         if ($scope.rendered) {
           $scope.update($routeParams.id, $routeParams.id2);
@@ -174,7 +175,8 @@ angular
           bindto: "#radar-chart",
           data: dataConfig,
           size: {
-            height: 500
+            height: 500,
+            width: w
           },
           padding: {
             top: 0
