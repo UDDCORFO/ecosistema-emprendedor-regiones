@@ -13,7 +13,8 @@ angular
     "ngAnimate",
     "ngRoute",
     "ngSanitize",
-    "ngTouch"
+    "ngTouch",
+    "ui.select"
   ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -149,6 +150,8 @@ angular
       svg: null
     };
 
+    /* DIMENSIONES */
+
     $rootScope.dimension_labels = {
       general: "Índice general",
       n_opp: "Percepción oportunidades",
@@ -202,14 +205,12 @@ angular
 
     $rootScope.dimension_options = [];
     angular.forEach($rootScope.dimension_labels, function(v, k) {
-      return $rootScope.dimension_options.push({ key: k, value: v });
+      return $rootScope.dimension_options.push({ id: k, label: v });
     });
 
-    $rootScope.views = [
-      { id: "main", name: "País" },
-      { id: "details", name: "Región" },
-      { id: "compare", name: "Comparar" }
-    ];
+    $rootScope.selectedDimension = { value: $rootScope.dimension_options[0] };
+
+    /* REGIONES */
 
     $rootScope.regions = {
       1: "Tarapacá",
@@ -229,6 +230,14 @@ angular
       15: "Arica y Parinacota"
     };
 
+    $rootScope.regions_options = [];
+    angular.forEach($rootScope.regions, function(v, k) {
+      return $rootScope.regions_options.push({ id: k, label: v });
+    });
+
+    $rootScope.selectedRegion = { value: $rootScope.regions_options[0] };
+    $rootScope.selectedVsRegion = { value: $rootScope.regions_options[1] };
+
     //$rootScope.colors = ['#bcbddc','#aca4cf','#9b8ac3','#8b72b6','#7958a9','#67409c','#54278f'];
 
     var pymChild = new pym.Child({ polling: 500 });
@@ -238,6 +247,8 @@ angular
 
     function dataLoaded(data) {
       $rootScope.fulldata = data;
+
+      /*YEARs*/
       $rootScope.years = _.keys($rootScope.fulldata);
       $rootScope.years = $rootScope.years
         .map(function(e) {
@@ -246,15 +257,28 @@ angular
         .sort()
         .reverse();
 
-      $rootScope.selectedYear = $rootScope.years[0];
-      $rootScope.selectedView =
+      $rootScope.years = $rootScope.years.map(function(e) {
+        return { id: e, label: e };
+      });
+
+      $rootScope.selectedYear = {
+        value: $rootScope.years[0]
+      };
+
+      /*VIEWS*/
+      $rootScope.views = [
+        { id: "main", label: "País" },
+        { id: "details", label: "Región" },
+        { id: "compare", label: "Comparar" }
+      ];
+      var viewId =
         $location.path().replace("/", "") == ""
           ? "main"
           : $location.path().replace("/", "");
 
-      $rootScope.selectedDimension = "general";
-      $rootScope.selectedRegion = "1";
-      $rootScope.selectedVsRegion = "2";
+      $rootScope.selectedView = {
+        value: _.find($rootScope.views, ["id", viewId])
+      };
 
       $rootScope.yearChanged();
       $rootScope.regionChanged();
@@ -264,7 +288,7 @@ angular
     }
 
     $rootScope.viewChanged = function() {
-      switch ($rootScope.selectedView) {
+      switch ($rootScope.selectedView.value.id) {
         case "main":
           window.location = "#/home";
           break;
@@ -280,23 +304,27 @@ angular
     $rootScope.regionChanged = function() {
       $rootScope.currentRegion = _.find($rootScope.data, [
         "region",
-        parseInt($rootScope.selectedRegion)
+        parseInt($rootScope.selectedRegion.value.id)
       ]);
-      $rootScope.$broadcast("regionChanged", { id: $rootScope.selectedRegion });
+      $rootScope.$broadcast("regionChanged", {
+        id: $rootScope.selectedRegion.value.id
+      });
     };
 
     $rootScope.vsRegionChanged = function() {
       $rootScope.vsRegion = _.find($rootScope.data, [
         "region",
-        parseInt($rootScope.selectedVsRegion)
+        parseInt($rootScope.selectedVsRegion.value.id)
       ]);
       $rootScope.$broadcast("vsRegionChanged", {
-        id: $rootScope.selectedVsRegion
+        id: $rootScope.selectedVsRegion.value.id
       });
     };
 
     $rootScope.yearChanged = function() {
-      $rootScope.data = $rootScope.fulldata[$rootScope.selectedYear].elements
+      $rootScope.data = $rootScope.fulldata[
+        $rootScope.selectedYear.value.id
+      ].elements
         .sort(function(a, b) {
           return a.general < b.general ? 1 : -1;
         })
@@ -311,20 +339,24 @@ angular
 
     $rootScope.dimensionChanged = function() {
       $rootScope.$broadcast("dimensionChanged", {
-        dim: $rootScope.selectedDimension
+        dim: $rootScope.selectedDimension.value.id
       });
     };
 
     $rootScope.goToDetail = function(id) {
-      $rootScope.selectedView = "details";
-      $rootScope.selectedRegion = id + "";
+      $rootScope.selectedRegion = {
+        value: _.find($rootScope.regions_options, ["id", id + ""])
+      };
       window.location = "#/details?id=" + id;
     };
 
     $rootScope.goToCompare = function(id1, id2) {
-      $rootScope.selectedView = "compare";
-      $rootScope.selectedRegion = id1 + "";
-      $rootScope.selectedVsRegion = id2 + "";
+      $rootScope.selectedRegion = {
+        value: _.find($rootScope.regions_options, ["id", id1 + ""])
+      };
+      $rootScope.selectedVsRegion = {
+        value: _.find($rootScope.regions_options, ["id", id2 + ""])
+      };
       window.location = "#/compare?id=" + id1 + "&id2=" + id2;
     };
 
@@ -416,19 +448,23 @@ angular
           return "#ddd";
         })
         .on("click", function(d) {
-          switch ($rootScope.selectedView) {
+          switch ($rootScope.selectedView.value.id) {
             case "main":
               $rootScope.goToDetail(d.id);
               break;
             case "details":
               $rootScope.$apply(function() {
-                $rootScope.selectedRegion = d.id + "";
+                $rootScope.selectedRegion = {
+                  value: _.find($rootScope.regions_options, ["id", d.id + ""])
+                };
               });
               $rootScope.regionChanged();
               break;
             case "compare":
               $rootScope.$apply(function() {
-                $rootScope.selectedVsRegion = d.id + "";
+                $rootScope.selectedVsRegion = {
+                  value: _.find($rootScope.regions_options, ["id", d.id + ""])
+                };
                 $rootScope.vsRegionChanged();
               });
               break;

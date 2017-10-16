@@ -50,7 +50,6 @@ angular
     };
 
     $scope.update = function(id1, id2) {
-      console.log("update compare", id1, id2);
       $scope.colorest = d3.scale.ordinal().range(["#ff8303", "#001d34"]);
 
       $location.search("id", id1);

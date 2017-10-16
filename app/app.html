@@ -10,6 +10,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
     <!-- endbower -->
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet"> 
     <!-- endbuild -->
@@ -21,6 +22,19 @@
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <!--
+    IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
+    For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
+    -->
+    <!--[if lt IE 9]>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+      <script>
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
+      </script>
+    <![endif]-->
 
     <div id="main-control-header">
 
@@ -30,27 +44,67 @@
             <h2>Ecosistema de Emprendimiento</h2>
           </div>
           <div class="col-sm-3">
-            <select class="form-control" ng-change="viewChanged()" ng-model="selectedView" ng-options="y.id as y.name for y in views"></select>
+
+            <ui-select ng-model="selectedView.value" ng-disabled="loading" on-select="viewChanged($item)" search-enabled="false">
+              <ui-select-match>
+                <span ng-bind="$select.selected.label"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="v in views"">
+                <div>{{v.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
         </div>
         
         <div class="row">
           <div class="col-sm-9">
-            
-            <select ng-show="selectedView=='main'" class="form-control" ng-change="dimensionChanged()" ng-options="o.key as o.value for o in dimension_options" ng-model="selectedDimension"></select>
-          
-            <select ng-show="selectedView=='details' || selectedView=='compare'" class="form-control" ng-options="key as value for (key , value) in regions" ng-model="selectedRegion" ng-change="regionChanged()"></select>
+            <ui-select ng-model="selectedDimension.value" ng-disabled="loading" on-select="dimensionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='main'">
+              <ui-select-match>
+                <span ng-bind="$select.selected.label"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="dim in dimension_options">
+                <div>{{dim.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+            <ui-select ng-model="selectedRegion.value" ng-disabled="loading" on-select="regionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='details' || selectedView.value.id=='compare'">
+              <ui-select-match>
+                <span ng-bind="$select.selected.label"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="r in regions_options">
+                <div>{{r.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
 
           <div class="col-sm-3">
-            <select class="form-control" ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years"></select>
+            <ui-select ng-model="selectedYear.value" ng-disabled="loading" on-select="yearChanged($item)" search-enabled="false">
+              <ui-select-match>
+                <span ng-bind="$select.selected.label"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="y in years"">
+                <div>{{y.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <span ng-if="selectedView=='main'">{{dimension_descriptions[selectedDimension]}}</span>
-            <div  ng-if="selectedView=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}} </div>
-            <select ng-show="selectedView=='compare'" class="form-control" ng-options="key as value for (key , value) in regions" ng-model="selectedVsRegion" ng-change="vsRegionChanged()"></select>
+            <span ng-if="selectedView.value.id=='main'">{{dimension_descriptions[selectedDimension.value.id]}}</span>
+            <div  ng-if="selectedView.value.id=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}} </div>
+
+            <ui-select ng-model="selectedVsRegion.value" ng-disabled="loading" on-select="vsRegionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='compare'">
+              <ui-select-match>
+                <span ng-bind="$select.selected.label"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="r in regions_options">
+                <div>{{r.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
         </div>
 
@@ -100,6 +154,7 @@
     <script src="bower_components/pym.js/dist/pym.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/c3/c3.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
