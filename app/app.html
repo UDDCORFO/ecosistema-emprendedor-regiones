@@ -47,7 +47,7 @@
 
             <ui-select ng-model="selectedView.value" ng-disabled="loading" on-select="viewChanged($item)" search-enabled="false">
               <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="v in views"">
                 <div>{{v.label}}</div>
@@ -61,7 +61,7 @@
           <div class="col-sm-9">
             <ui-select ng-model="selectedDimension.value" ng-disabled="loading" on-select="dimensionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='main'">
               <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span>{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="dim in dimension_options">
                 <div>{{dim.label}}</div>
@@ -70,7 +70,7 @@
 
             <ui-select ng-model="selectedRegion.value" ng-disabled="loading" on-select="regionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='details' || selectedView.value.id=='compare'">
               <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span>{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="r in regions_options">
                 <div>{{r.label}}</div>
@@ -82,7 +82,7 @@
           <div class="col-sm-3">
             <ui-select ng-model="selectedYear.value" ng-disabled="loading" on-select="yearChanged($item)" search-enabled="false">
               <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="y in years"">
                 <div>{{y.label}}</div>
@@ -93,12 +93,12 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <span ng-if="selectedView.value.id=='main'">{{dimension_descriptions[selectedDimension.value.id]}}</span>
-            <div  ng-if="selectedView.value.id=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}} </div>
+            <p class="description" ng-if="selectedView.value.id=='main'">{{dimension_descriptions[selectedDimension.value.id]}}</p>
+            <p class="description" ng-if="selectedView.value.id=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}}</p>
 
             <ui-select ng-model="selectedVsRegion.value" ng-disabled="loading" on-select="vsRegionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='compare'">
               <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span>vs {{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="r in regions_options">
                 <div>{{r.label}}</div>

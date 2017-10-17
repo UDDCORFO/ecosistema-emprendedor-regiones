@@ -203,9 +203,110 @@ p.help-block .spacer {
 
 #main-control-header {
 	background-color: #ccc;
-	padding: 10px;
+	padding: 20px 10px 30px 10px;
+	background-image: url("../images/bg.png");
+	background-size: cover;
+	margin-bottom: 20px;
 }
 
+#main-control-header h2 {
+	text-align: center;
+	color: white;
+	margin: 5px auto;
+	text-transform: uppercase;
+}
+
+#main-control-header .description {
+	text-align: center;
+	color: white;
+	margin: 20px 5px 0px 5px;
+	font-size: 15px;
+}
+
+.ui-select-bootstrap {
+}
+
+.ui-select-bootstrap:hover,
+.ui-select-bootstrap:active,
+.ui-select-bootstrap:link,
+.ui-select-bootstrap:focus {
+	outline: 0;
+	background-color: transparent;
+}
+
+.ui-select-bootstrap .ui-select-match {
+}
+
+.ui-select-bootstrap .ui-select-match:hover,
+.ui-select-bootstrap .ui-select-match:active,
+.ui-select-bootstrap .ui-select-match:link,
+.ui-select-bootstrap .ui-select-match:focus {
+	outline: 0;
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.ui-select-bootstrap .btn-default-focus,
+.ui-select-bootstrap .btn-default-focus:active {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.ui-select-bootstrap .ui-select-toggle {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.ui-select-bootstrap .ui-select-toggle:hover,
+.ui-select-bootstrap .ui-select-toggle:active,
+.ui-select-bootstrap .ui-select-toggle:link,
+.ui-select-bootstrap .ui-select-toggle:focus {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.ui-select-bootstrap .ui-select-toggle .caret {
+	display: none;
+}
+
+.ui-select-bootstrap .ui-select-match-text {
+	color: white;
+	text-align: center;
+	font-size: 25px;
+	padding-right: 0;
+}
+
+.gly-rotate-90 {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	transform: rotate(90deg);
+	margin-left: 10px;
+}
+
+.ui-select-bootstrap .ui-select-choices {
+	margin-top: 10px;
+	padding: 0;
+	border-radius: 0;
+}
+
+.ui-select-bootstrap .ui-select-choices-row {
+}
+
+.ui-select-bootstrap
+	.ui-select-choices-row.active
+	.ui-select-choices-row-inner {
+	background-color: rgb(255, 131, 3);
+}
 /* Responsive: Portrait tablets and up */
 @media only screen and (max-width: 767px) {
 	p.help-block.to-select {

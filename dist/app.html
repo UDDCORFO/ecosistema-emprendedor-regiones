@@ -1,9 +1,137 @@
-<!doctype html> <html> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.1b7d88a2.css"> <link rel="stylesheet" href="styles/main.0021afe0.css"> </head> <body ng-app="ecosistemaEmprendedorRegionesApp"> <!--[if lte IE 8]>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/vendor.6db1d4b5.css">
+    <link rel="stylesheet" href="styles/main.7f994e74.css">
+  </head>
+  <body ng-app="ecosistemaEmprendedorRegionesApp">
+    <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]--> <div class="container-fluid"> <div class="row"> <div id="sidebar" class="col-sm-2"> <label ng-show="!loading">Año:</label> <select ng-show="!loading" class="form-control" ng-change="yearChanged()" ng-model="selectedYear" ng-options="y as y for y in years"> </select> <p ng-show="!loading" class="help-block up text-center"><i class="glyphicon glyphicon-arrow-up"></i><br>Click para cambiar el año</p> <div id="mapa" class="hidden-xs"></div> <p ng-show="!loading" class="help-block up hidden-xs text-center"><i class="glyphicon glyphicon-arrow-up"></i><br>Click en el mapa para ver el detalle de la región</p> </div> <div id="main-col" class="col-sm-10 col-xs-12" ng-class="{loading:loading}"> <div ng-hide="loading" ng-view=""></div> </div> </div> </div> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID --> <script>!function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+    <![endif]-->
+    <!--
+    IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
+    For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
+    -->
+    <!--[if lt IE 9]>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+      <script>
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
+      </script>
+    <![endif]-->
+
+    <div id="main-control-header">
+
+      <div class="">
+        <div class="row">
+          <div class="col-sm-9">
+            <h2>Ecosistema de Emprendimiento</h2>
+          </div>
+          <div class="col-sm-3">
+
+            <ui-select ng-model="selectedView.value" ng-disabled="loading" on-select="viewChanged($item)" search-enabled="false">
+              <ui-select-match>
+                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+              </ui-select-match>
+              <ui-select-choices repeat="v in views"">
+                <div>{{v.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-sm-9">
+            <ui-select ng-model="selectedDimension.value" ng-disabled="loading" on-select="dimensionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='main'">
+              <ui-select-match>
+                <span>{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+              </ui-select-match>
+              <ui-select-choices repeat="dim in dimension_options">
+                <div>{{dim.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+            <ui-select ng-model="selectedRegion.value" ng-disabled="loading" on-select="regionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='details' || selectedView.value.id=='compare'">
+              <ui-select-match>
+                <span>{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+              </ui-select-match>
+              <ui-select-choices repeat="r in regions_options">
+                <div>{{r.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+
+          <div class="col-sm-3">
+            <ui-select ng-model="selectedYear.value" ng-disabled="loading" on-select="yearChanged($item)" search-enabled="false">
+              <ui-select-match>
+                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+              </ui-select-match>
+              <ui-select-choices repeat="y in years"">
+                <div>{{y.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <p class="description" ng-if="selectedView.value.id=='main'">{{dimension_descriptions[selectedDimension.value.id]}}</p>
+            <p class="description" ng-if="selectedView.value.id=='details'">Ranking #{{currentRegion.ranking}} de 15 | Índice general: {{currentRegion.general}}</p>
+
+            <ui-select ng-model="selectedVsRegion.value" ng-disabled="loading" on-select="vsRegionChanged($item)" search-enabled="false" ng-show="selectedView.value.id=='compare'">
+              <ui-select-match>
+                <span>vs {{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+              </ui-select-match>
+              <ui-select-choices repeat="r in regions_options">
+                <div>{{r.label}}</div>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+
+      </div>
+    
+    </div>
+
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div id="sidebar" class="col-sm-2">
+          <div id="mapa" class="hidden-xs"></div>
+        </div>
+
+        <div id="main-col" class="col-sm-10 col-xs-12" ng-class="{loading:loading}">
+          <div ng-hide="loading" ng-view=""></div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
        (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
        r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
        }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
        ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');</script> <script src="scripts/vendor.4bdd2b17.js"></script> <script src="scripts/scripts.fe013fad.js"></script> </body> </html>
+       ga('send', 'pageview');
+    </script>
+
+    <script src="scripts/vendor.44618ea5.js"></script>
+
+    <script src="scripts/scripts.2bb8cfa0.js"></script>
+</body>
+</html>
