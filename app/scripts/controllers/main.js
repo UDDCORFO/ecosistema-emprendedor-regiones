@@ -112,7 +112,6 @@ angular
               $scope.unhoverTick($scope.chartData[value].id);
             })
             .on("click", function(value, index) {
-              console.log("click chart");
               $scope.goToDetail($scope.chartData[value].id);
             });
         } else {

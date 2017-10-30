@@ -164,15 +164,15 @@ angular
     };
 
     //check dataset
-    $rootScope.dataset = $.urlParam($location.absUrl(), "dataset");
-    $rootScope.dataset = $rootScope.dataset ? $rootScope.dataset : "mideco";
+    $rootScope.dataset_param = $.urlParam($location.absUrl(), "dataset");
+    $rootScope.dataset = $rootScope.dataset_param
+      ? $rootScope.dataset_param
+      : "mideco";
 
     $rootScope.dataset_key =
       $rootScope.dataset == "mideco"
         ? "1mB7Mes_YsCRTKNEvVTxQMDXtN17BGakWOxlx7MlRPWM"
         : "1wtF07FqjgnVkYNTFKn6UR0T92VdKVwsisqWm31XeqWA";
-
-    console.log("$rootScope.dataset", $rootScope.dataset);
 
     /* DIMENSIONES */
 

@@ -35,8 +35,19 @@
         document.createElement('ui-select-choices');
       </script>
     <![endif]-->
+    <div ng-if="dataset_param" class="container-fluid container-navigation">
+      <div class="row">
+        <div class="col-xs-6">
+          <a href="http://ober.udd.cl/mideco/" target="_blank" class="btn-navigation btn-block text-center" ng-class="{'selected-mideco':dataset=='mideco'}">MIDECO</a>
+        </div>
+        <div class="col-xs-6">
+          <a href="http://ober.udd.cl/midee/" target="_blank" class="btn-navigation btn-block text-center" ng-class="{'selected-midee':dataset=='midee'}">MIDEE</a>
+        </div>
+      </div>
+    </div>
 
     <div id="main-control-header" ng-class="{'header-mideco':dataset=='mideco','header-midee':dataset=='midee'}">
+
 
       <div class="">
         <div class="row">
@@ -47,7 +58,7 @@
 
             <ui-select ng-model="selectedView.value" ng-disabled="loading" on-select="viewChanged($item)" search-enabled="false">
               <ui-select-match>
-                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+                <span class="text-center-sm">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="v in views"">
                 <div>{{v.label}}</div>
@@ -82,7 +93,7 @@
           <div class="col-sm-3">
             <ui-select ng-model="selectedYear.value" ng-disabled="loading" on-select="yearChanged($item)" search-enabled="false">
               <ui-select-match>
-                <span class="text-right">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
+                <span class="text-center-sm">{{$select.selected.label}}<i class="glyphicon glyphicon-play gly-rotate-90"></i></span>
               </ui-select-match>
               <ui-select-choices repeat="y in years"">
                 <div>{{y.label}}</div>

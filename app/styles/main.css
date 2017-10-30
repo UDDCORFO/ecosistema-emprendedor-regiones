@@ -323,11 +323,42 @@ p.help-block .spacer {
 	background-color: #0063b1;
 }
 
+.container-navigation .col-xs-6 {
+	padding: 0px;
+}
+
+.btn-navigation {
+	padding: 20px;
+}
+
+.btn-navigation.selected-midee {
+	background-color: #0063b1;
+	color: #fff;
+	cursor: default;
+}
+
+.btn-navigation.selected-mideco {
+	background-color: rgb(255, 131, 3);
+	color: #fff;
+	cursor: default;
+}
+
+.btn-navigation.selected-mideco:hover {
+	text-decoration: none;
+}
+
+.text-center-sm {
+	text-align: right;
+}
+
 /* Responsive: Portrait tablets and up */
 @media only screen and (max-width: 767px) {
 	p.help-block.to-select {
 		margin-top: 0px;
 		margin-bottom: 4px;
+		text-align: center;
+	}
+	.text-center-sm {
 		text-align: center;
 	}
 }
