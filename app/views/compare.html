@@ -4,12 +4,12 @@
 
 		<div class="reference-container text-center">
 			<div class="reference">
-				<p class="name"><span class="block block-color1"></span><strong>{{region1.nombre}}</strong></p>
+				<p class="name"><span class="block" ng-class="{'block-color1':dataset=='mideco','block-color2':dataset=='midee'}"></span><strong>{{region1.nombre}}</strong></p>
 				<p class="rank">#{{region1.ranking}} de 15</p>
 				<p class="index">General: {{region1.general | number : 2}}</p>
 			</div>
 			<div class="reference">
-				<p class="name"><span class="block block-color2"></span><strong>{{region2.nombre}}</strong></p>
+				<p class="name"><span class="block" ng-class="{'block-color2':dataset=='mideco','block-color1':dataset=='midee'}"></span><strong>{{region2.nombre}}</strong></p>
 				<p class="rank">#{{region2.ranking}} de 15</p>
 				<p class="index">General: {{region2.general | number : 2}}</p>
 			</div>

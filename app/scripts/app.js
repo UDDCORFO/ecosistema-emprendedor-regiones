@@ -1,5 +1,14 @@
 "use strict";
 
+$.urlParam = function(url, name) {
+  var results = new RegExp("[?&]" + name + "=([^&#]*)").exec(url);
+  if (results === null) {
+    return null;
+  } else {
+    return results[1] || 0;
+  }
+};
+
 /**
  * @ngdoc overview
  * @name ecosistemaEmprendedorRegionesApp
@@ -40,26 +49,30 @@ angular
       });
     $locationProvider.hashPrefix("");
   })
-  .service("ColorService", function() {
+  .service("ColorService", function($rootScope) {
     this.getThresholdScale = function(min, max) {
       var d = (max - min) / 10;
+      var colors = [
+        "#001d34",
+        "#2f2934",
+        "#4e3633",
+        "#6d4331",
+        "#8c502e",
+        "#ac5e29",
+        "#cc6c21",
+        "#ec7b13",
+        "#ff932e",
+        "#ffb365"
+      ];
+      if ($rootScope.dataset == "midee") {
+        colors.reverse();
+      }
       return (
         d3.scale
           .threshold()
           //.range(['#bcbddc','#b1abd3','#a69bcb','#9b8ac3','#907aba','#8469b1','#7958a9','#6d49a0','#613897','#54278f'])
           //.range(['#001d34','#2a2734','#443233','#5e3d32','#784830','#92532d','#ac5f29','#c76b23','#e27619','#ff8303'])
-          .range([
-            "#001d34",
-            "#2f2934",
-            "#4e3633",
-            "#6d4331",
-            "#8c502e",
-            "#ac5e29",
-            "#cc6c21",
-            "#ec7b13",
-            "#ff932e",
-            "#ffb365"
-          ])
+          .range(colors)
           .domain([
             min + 1 * d,
             min + 2 * d,
@@ -92,16 +105,16 @@ angular
         .duration(1000)
         .style("fill", function(d) {
           if (d.id == id1) {
-            return "#ff8303";
+            return $rootScope.dataset == "mideco" ? "#ff8303" : "#001D34";
           } else if (id2 && d.id == id2) {
-            return "#001D34";
+            return $rootScope.dataset == "mideco" ? "#001D34" : "#ff8303";
           } else {
             return "#ddd";
           }
         });
     };
   })
-  .service("TabletopService", function($q) {
+  .service("TabletopService", function($q, $rootScope) {
     this.data = false;
 
     this.loading = false;
@@ -111,7 +124,7 @@ angular
       return $q(function(resolve, reject) {
         if (!that.data) {
           Tabletop.init({
-            key: "1mB7Mes_YsCRTKNEvVTxQMDXtN17BGakWOxlx7MlRPWM",
+            key: $rootScope.dataset_key,
             callback: function(data, tabletop) {
               that.data = data;
               resolve(angular.copy(that.data));
@@ -150,58 +163,97 @@ angular
       svg: null
     };
 
+    //check dataset
+    $rootScope.dataset = $.urlParam($location.absUrl(), "dataset");
+    $rootScope.dataset = $rootScope.dataset ? $rootScope.dataset : "mideco";
+
+    $rootScope.dataset_key =
+      $rootScope.dataset == "mideco"
+        ? "1mB7Mes_YsCRTKNEvVTxQMDXtN17BGakWOxlx7MlRPWM"
+        : "1wtF07FqjgnVkYNTFKn6UR0T92VdKVwsisqWm31XeqWA";
+
+    console.log("$rootScope.dataset", $rootScope.dataset);
+
     /* DIMENSIONES */
 
-    $rootScope.dimension_labels = {
-      general: "Índice general",
-      n_opp: "Percepción oportunidades",
-      n_start: "Habilidades emprendimiento",
-      n_risk: "Tolerancia al fracaso",
-      n_network: "Calidad de redes de trabajo",
-      n_cultsupp: "Aceptación cultural al emprendimiento",
-      n_oppstart: "Facilidad para iniciar negocios",
-      n_techno: "Absorbción tecnológica",
-      n_hc: "Calidad de los recursos humanos",
-      n_compet: "Nivel de competencia",
-      n_pinnov: "Desarrollo de nuevos productos",
-      n_procinn: "Desarrollo de nuevas tecnologías",
-      n_hgrow: "Creación de empresas de alto crecimiento",
-      n_global: "Internacionalización",
-      n_finance: "Financiamiento disponible"
+    $rootScope.dimension_labels_index = {
+      mideco: {
+        general: "Índice general",
+        n_opp: "Percepción oportunidades",
+        n_start: "Habilidades emprendimiento",
+        n_risk: "Tolerancia al fracaso",
+        n_network: "Calidad de redes de trabajo",
+        n_cultsupp: "Aceptación cultural al emprendimiento",
+        n_oppstart: "Facilidad para iniciar negocios",
+        n_techno: "Absorbción tecnológica",
+        n_hc: "Calidad de los recursos humanos",
+        n_compet: "Nivel de competencia",
+        n_pinnov: "Desarrollo de nuevos productos",
+        n_procinn: "Desarrollo de nuevas tecnologías",
+        n_hgrow: "Creación de empresas de alto crecimiento",
+        n_global: "Internacionalización",
+        n_finance: "Financiamiento disponible"
+      },
+      midee: {
+        general: "Índice general",
+        n_calidad: "Calidad del Mercado Digital",
+        n_articulacion: "Articulación del Emprendimiento Digital",
+        n_ciudadania: "Ciudadanía Digital",
+        n_infraestructura: "Infraestructura Digital",
+        n_innov: "Innovación",
+        n_financiamiento: "Financiamiento"
+      }
     };
 
-    $rootScope.dimension_descriptions = {
-      general:
-        "Índice general construído en base a todos los índices relevados.",
-      n_opp:
-        "Emprendimiento por oportunidad ponderado por la percepción de barreras a nuevas oportunidades de emprendimiento en la región.",
-      n_start:
-        "Percepción de habilidad individual para emprender, ponderado por la calidad de recursos humanos disponibles en la región.",
-      n_risk:
-        "Percepción de posibilidad de fracaso, ponderado por el riesgo de negocios en la región.",
-      n_network:
-        "Capacidad de movilizar recursos y aprovechar oportunidades entre redes de trabajo, ponderado por la conectividad de la región.",
-      n_cultsupp:
-        "Soporte cultural al emprendimiento ponderado por la cohesión para apoyar el emprendimiento.",
-      n_oppstart:
-        "Proporción de emprendedores oportunistas, ponderado por la percepción de corrupción regional.",
-      n_techno:
-        "Proporción de emprendedores que adoptaron tecnologías, ponderado por la conectividad digital de la región.",
-      n_hc:
-        "Proporción de emprendedores con al menos educación secundaria, ponderado por la productividad laboral de la región.",
-      n_compet:
-        "Intensidad de competencia entre emprendedores del mismo producto, ponderado por una medida de rigideces laborales de la región.",
-      n_pinnov:
-        "Potencial de los emprendedores a irrumpir en un mercado con un producto nuevo, ponderado por una medida regional de innovación.",
-      n_procinn:
-        "Potencial de los emprendedores para irrumpir en un mercado con un proceso productivo nuevo, ponderado por una medida regional de innovación.",
-      n_hgrow:
-        "Potencial de crecimiento futuro ponderado por el nivel de sofisticación del mercado.",
-      n_global:
-        "Tendencia de los emprendedores a exportar sus productos, ponderado por la exposición al exterior que tiene la región.",
-      n_finance:
-        "Medida del financiamiento (informal) disponible, ponderado por la infraestructura financiera regional."
+    $rootScope.dimension_labels =
+      $rootScope.dimension_labels_index[$rootScope.dataset];
+
+    $rootScope.dimension_descriptions_index = {
+      mideco: {
+        general:
+          "Índice general construído en base a todos los índices relevados.",
+        n_opp:
+          "Emprendimiento por oportunidad ponderado por la percepción de barreras a nuevas oportunidades de emprendimiento en la región.",
+        n_start:
+          "Percepción de habilidad individual para emprender, ponderado por la calidad de recursos humanos disponibles en la región.",
+        n_risk:
+          "Percepción de posibilidad de fracaso, ponderado por el riesgo de negocios en la región.",
+        n_network:
+          "Capacidad de movilizar recursos y aprovechar oportunidades entre redes de trabajo, ponderado por la conectividad de la región.",
+        n_cultsupp:
+          "Soporte cultural al emprendimiento ponderado por la cohesión para apoyar el emprendimiento.",
+        n_oppstart:
+          "Proporción de emprendedores oportunistas, ponderado por la percepción de corrupción regional.",
+        n_techno:
+          "Proporción de emprendedores que adoptaron tecnologías, ponderado por la conectividad digital de la región.",
+        n_hc:
+          "Proporción de emprendedores con al menos educación secundaria, ponderado por la productividad laboral de la región.",
+        n_compet:
+          "Intensidad de competencia entre emprendedores del mismo producto, ponderado por una medida de rigideces laborales de la región.",
+        n_pinnov:
+          "Potencial de los emprendedores a irrumpir en un mercado con un producto nuevo, ponderado por una medida regional de innovación.",
+        n_procinn:
+          "Potencial de los emprendedores para irrumpir en un mercado con un proceso productivo nuevo, ponderado por una medida regional de innovación.",
+        n_hgrow:
+          "Potencial de crecimiento futuro ponderado por el nivel de sofisticación del mercado.",
+        n_global:
+          "Tendencia de los emprendedores a exportar sus productos, ponderado por la exposición al exterior que tiene la región.",
+        n_finance:
+          "Medida del financiamiento (informal) disponible, ponderado por la infraestructura financiera regional."
+      },
+      midee: {
+        general: "Índice general",
+        n_calidad: "Calidad del Mercado Digital",
+        n_articulacion: "Articulación del Emprendimiento Digital",
+        n_ciudadania: "Ciudadanía Digital",
+        n_infraestructura: "Infraestructura Digital",
+        n_innov: "Innovación",
+        n_financiamiento: "Financiamiento"
+      }
     };
+
+    $rootScope.dimension_descriptions =
+      $rootScope.dimension_descriptions_index[$rootScope.dataset];
 
     $rootScope.dimension_options = [];
     angular.forEach($rootScope.dimension_labels, function(v, k) {
@@ -344,6 +396,9 @@ angular
     };
 
     $rootScope.goToDetail = function(id) {
+      $rootScope.selectedView = {
+        value: _.find($rootScope.views, ["id", "details"])
+      };
       $rootScope.selectedRegion = {
         value: _.find($rootScope.regions_options, ["id", id + ""])
       };

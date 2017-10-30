@@ -14,11 +14,11 @@ angular
     $routeParams,
     $location,
     ColorService,
-    $timeout
+    $timeout,
+    $rootScope
   ) {
     $scope.$on("newData", function() {
       //$scope.setup();
-      console.log("newData COMPARE");
       $timeout(function() {
         if ($scope.rendered) {
           $scope.update($routeParams.id, $routeParams.id2);
@@ -50,7 +50,11 @@ angular
     };
 
     $scope.update = function(id1, id2) {
-      $scope.colorest = d3.scale.ordinal().range(["#ff8303", "#001d34"]);
+      var colors = ["#ff8303", "#001d34"];
+      if ($rootScope.dataset == "midee") {
+        colors.reverse();
+      }
+      $scope.colorest = d3.scale.ordinal().range(colors);
 
       $location.search("id", id1);
       $location.search("id2", id2);

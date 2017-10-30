@@ -14,10 +14,10 @@ angular
     $routeParams,
     $location,
     ColorService,
-    $timeout
+    $timeout,
+    $rootScope
   ) {
     $scope.$on("newData", function() {
-      console.log("newData DETAILS");
       $timeout(function() {
         if ($scope.rendered) {
           $scope.update($routeParams.id);
@@ -89,7 +89,9 @@ angular
 
     var chart;
 
-    var color = d3.scale.ordinal().range(["#ff8303"]);
+    var color = d3.scale
+      .ordinal()
+      .range([$rootScope.dataset == "mideco" ? "#ff8303" : "#001d34"]);
 
     $scope.renderLineChart = function(w, detail) {
       var dataConfig = {
@@ -170,7 +172,9 @@ angular
       var margin = { top: 100, right: 150, bottom: 100, left: 150 },
         size = w;
 
-      var color = d3.scale.ordinal().range(["#ff8303"]);
+      var color = d3.scale
+        .ordinal()
+        .range([$rootScope.dataset == "mideco" ? "#ff8303" : "#001d34"]);
 
       var radarChartOptions = {
         w: size - margin.right - margin.left,

@@ -204,9 +204,16 @@ p.help-block .spacer {
 #main-control-header {
 	background-color: #ccc;
 	padding: 20px 10px 30px 10px;
-	background-image: url("../images/bg.png");
 	background-size: cover;
 	margin-bottom: 20px;
+}
+
+#main-control-header.header-mideco {
+	background-image: url("../images/mideco.png");
+}
+
+#main-control-header.header-midee {
+	background-image: url("../images/midee.png");
 }
 
 #main-control-header h2 {
@@ -302,11 +309,20 @@ p.help-block .spacer {
 .ui-select-bootstrap .ui-select-choices-row {
 }
 
-.ui-select-bootstrap
+#main-control-header.header-mideco
+	.ui-select-bootstrap
 	.ui-select-choices-row.active
 	.ui-select-choices-row-inner {
 	background-color: rgb(255, 131, 3);
 }
+
+#main-control-header.header-midee
+	.ui-select-bootstrap
+	.ui-select-choices-row.active
+	.ui-select-choices-row-inner {
+	background-color: #0063b1;
+}
+
 /* Responsive: Portrait tablets and up */
 @media only screen and (max-width: 767px) {
 	p.help-block.to-select {
