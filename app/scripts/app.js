@@ -196,12 +196,12 @@ angular
       },
       midee: {
         general: "Índice general",
-        n_calidad: "Calidad del Mercado Digital",
-        n_articulacion: "Articulación del Emprendimiento Digital",
-        n_ciudadania: "Ciudadanía Digital",
-        n_infraestructura: "Infraestructura Digital",
+        n_participacion: "Participación ciudadana digital",
+        n_calidad: "Calidad del mercado digital",
+        n_infraestructura: "Infraestructura digital",
         n_innov: "Innovación",
-        n_financiamiento: "Financiamiento"
+        n_adopcion: "Adopción tecnológica",
+        n_financiamiento: "Acceso al financiamiento"
       }
     };
 
@@ -243,12 +243,15 @@ angular
       },
       midee: {
         general: "Índice general",
-        n_calidad: "Calidad del Mercado Digital",
-        n_articulacion: "Articulación del Emprendimiento Digital",
-        n_ciudadania: "Ciudadanía Digital",
-        n_infraestructura: "Infraestructura Digital",
-        n_innov: "Innovación",
-        n_financiamiento: "Financiamiento"
+        n_participacion:
+          "Articulación de agentes y usuarios con el medio digital.",
+        n_calidad: "Articulación de agentes y usuarios con el mercado digital.",
+        n_infraestructura:
+          "Infraestructura de acceso y difusión de contenido digital.",
+        n_innov: "Innovación tecnológica y digital.",
+        n_adopcion: "Adopción de nuevas tecnologías productivas y digitales.",
+        n_financiamiento:
+          "Acceso formal e informal al financiamiento a emprendimientos."
       }
     };
 
