@@ -201,7 +201,8 @@ angular
         n_infraestructura: "Infraestructura digital",
         n_innov: "Innovación",
         n_adopcion: "Adopción tecnológica",
-        n_financiamiento: "Acceso al financiamiento"
+        n_financiamiento: "Acceso al financiamiento",
+        n_matchmaker: "Matchmaker Digitales"
       }
     };
 
@@ -251,7 +252,8 @@ angular
         n_innov: "Innovación tecnológica y digital.",
         n_adopcion: "Adopción de nuevas tecnologías productivas y digitales.",
         n_financiamiento:
-          "Acceso formal e informal al financiamiento a emprendimientos."
+          "Acceso formal e informal al financiamiento a emprendimientos.",
+        n_matchmaker: "Capacidad de hacer matchings de recursos y personas."
       }
     };
 
